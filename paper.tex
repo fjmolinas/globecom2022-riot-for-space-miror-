@@ -3,32 +3,14 @@
 % but others use the standard conference format.
 %
 
+\usepackage[pdftex]{graphicx}
+\graphicspath{{./Figures}}
+
 % *** CITATION PACKAGES ***
 %
-\usepackage{cite}
+%\usepackage{cite}
 % cite.sty was written by Donald Arseneau
 
-
-% *** GRAPHICS RELATED PACKAGES ***
-%
-\ifCLASSINFOpdf
-  \usepackage[pdftex]{graphicx}
-  % declare the path(s) where your graphic files are
-  \graphicspath{{../pics/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  %\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
-\else
-  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
-  % will default to the driver specified in the system graphics.cfg if no
-  % driver is specified.
-  \usepackage[dvips]{graphicx}
-  % declare the path(s) where your graphic files are
-  \graphicspath{{./pics}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  \DeclareGraphicsExtensions{.eps}
-\fi
 
 \usepackage{comment}
 \usepackage{mcite}
@@ -38,12 +20,12 @@
 \usepackage{tikz}
 \usepackage[mode=buildnew]{standalone}% requires -shell-escape
 \usepackage{pgfplots, pgfplotstable}
-\pgfplotsset{compat=1.17}
+\pgfplotsset{compat=1.16}
 \usepackage{lipsum}
 \usepackage{colortbl}
 
 \newcommand{\francisco}[1]  {\textbf{\textcolor{blue}{[Francisco] #1}}}
-\newcommand{\nath}[1]{\textcolor{green}{#1} }
+\newcommand{\nath}[1]{\textcolor{green}{#1} } 
 
 % *** MATH PACKAGES ***
 %
@@ -65,10 +47,10 @@
 % use a multiple column layout for up to three different
 % affiliations
 \author{
-    %\IEEEauthorblockN{J. Kirk, H. Simpson and M. Scott}
-    \IEEEauthorblockN{Authors}
-    \IEEEauthorblockA{Something, France.
-        Email: first.lastname@something.fr}}
+%\IEEEauthorblockN{J. Kirk, H. Simpson and M. Scott}
+\IEEEauthorblockN{Authors}
+\IEEEauthorblockA{Something, France. 
+Email: first.lastname@something.fr}}
 
 % make the title area
 \maketitle
@@ -76,142 +58,25 @@
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-
+TO DO.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
 
-\section{Introduction}
-\label{sec:introduction}
+\input{intro}
+\input{related-work}
+\input{ThingSat}
+\input{architecture}
+\input{implementation}
+\input{evaluation}
+\input{lessons-learned}
+\input{conclusion}
 
-\paragraph*{Satellites, CubeSat}
-\paragraph*{IoT, Internet of Space Things}: Iridium, LoRa, 5G
-\paragraph*{Cube-Sat, Open-Source Initiatives}
-\paragraph*{RIOT, Open-Source}
-\paragraph*{Paper contributions}
-\paragraph*{Paper organization}
 
-\section{Background \& Related Work}
-\label{sec:background-related-work}
-
-\subsection{CubeSat}
-\label{sec:cubesat}
-
-\subsection{Cube Sat Protocol (CSP)}
-\label{sec:csp}
-
-\paragraph*{Architecture}
-% - electronics
-% - connectivity
-% - payloads, obc, etc..
-
-\subsection{Open Source}\cite{shalashov2021OpenSourceCubeSatReview}, \cite{Holliday2019PyCubedAO}
-\paragraph*{Why Open-Source Satellite Initiatives}
-\paragraph*{pyCube, etc.}
-% - overview of alternatives
-% - hardware software overview
-
-\subsection{LoRa} \cite{saeed2020CubeSatReview}
-\label{sec:lora-cubesat}
-\paragraph*{CubeSat LoRa missions}
-\paragraph*{Research topics, challenges of LoRa in space}
-
-\subsection{RIOT} \cite{baccelli2018riot}
-\paragraph{Overview of the Project}
-\paragraph{Overview of the architecture}
-
-\section{ThingSat}
-\label{sec:case-study}
-
-\subsection{Overview}
-
-\paragraph*{Project timeline and participants}
-% - costs
-\paragraph*{Mission Goal}
-\paragraph*{Broad overview of Segments}
-
-\subsection{Architecture}
-\paragraph*{Ground Segment Description}
-\paragraph*{Space Segment Description}
-\paragraph*{Control Segment} % Francisco: not sure if its the right name
-\paragraph*{OBC \& Payload Communication Bus}
-% - OBC -> SatRev controlled
-% - Payload -> Full Control
-
-\subsection{Telecommunications}
-\paragraph*{link-budget Mission Control}
-\paragraph*{link-budget Mission}
-\paragraph*{available phy}
-
-\section{Low Power Orbital Communication Architecture}
-\label{sec:low-power-orbital-communicaiton-arch}
-
-\subsection{Requirements}
-\paragraph*{communication protocols}
-\paragraph*{software/firmware updates}
-\paragraph*{software/configuration updates requirements}
-
-\subsection{Architecture}
-\subsubsection{OS}: RIOT
-\subsubsection{Network Stack}: COAP/LibCSP/CAN
-\subsubsection{Mission Workflow}: mission files
-\subsubsection{DevOps Workflow}: SUIT + containers
-\paragraph*{SUIT}
-\paragraph*{Containerization}
-
-\section{Implementation}
-\label{sec:implementation}
-
-\subsection{Payload}
-\label{sec:paylod}
-\subsubsection{Hardware}
-\paragraph*{MCU}
-\paragraph*{LoRa Radio}
-\paragraph*{LoRa Gateway}
-
-\subsubsection{Firmware}
-\paragraph*{libCSP}
-\paragraph*{CoAP}  % or SFP + RDP...
-\paragraph*{CAN}
-\paragraph*{LoRaWAN}
-\paragraph*{Application Code}
-% - Heartbeat
-% - Mission task
-% - Watchdog
-% - Two Line Element
-\subsubsection{Code Structure}
-
-\subsection{OBC Simulator}
-
-\subsection{Continuos Integration - Leveraging OpenSource}
-\paragraph*{RIOT}
-% - pointers to simulator-payload integations
-% - LibCSP in RIOT
-% - SUIT workflow examples in RIOT
-% - container examples in RIOT
-% - LoRaWAN examples in RIOT
-\paragraph*{ThingSat}
-% - OBC & Payload integration tests
-% - gitlab CI build tests and others
-
-\section{Evaluation}
-\label{sec:evaluation}
-
-\subsection{Memory Footprint}
-\subsection{Energy Footprint}
-\subsection{Link-budget Footprint}
-\subsection{Updates Latency}
-
-\section{Lessons Learned}
-
-\section{Next Steps \& Future Work}
-\label{sec:futurework}
-
-\section{Conclusion}
 
 \section*{Acknowledgment}
 
 \bibliographystyle{IEEEtran}
-\bibliography{IEEEabrv,./biblio}
+\bibliography{biblio}
 
 \end{document}
