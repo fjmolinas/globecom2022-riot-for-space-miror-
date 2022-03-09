@@ -1,12 +1,48 @@
-
-
 \section{Introduction}
 \label{sec:introduction}
 
-\paragraph*{Satellites, CubeSat}
-\paragraph*{IoT, Internet of Space Things}: Iridium, LoRa, 5G
-\paragraph*{Cube-Sat, Open-Source Initiatives}
-\paragraph*{RIOT, Open-Source}
-\paragraph*{Paper contributions}
-\paragraph*{Paper organization} 
+\textit{IoT, Internet of Space Things}: Iridium, LoRa, 5G
 
+\textit{Satellites generics}
+
+Education origin of satellite projects, with goal of lowering entry barrier by
+lowering design complexity. Cost have been also reduced with the increased
+amount of CubeSat deployment, numbering handful before 2013, +150 on average since,
+and +500 projected. The success rate has also increased over the years but is still
+around 75\%\cite{villela2019towards1000} (less for education??) and the failure
+rate still being around 60\% for first time satellite builders\cite{Holliday2019PyCubed}.
+
+The nature of student driven CubeSat projects: changing teams, limited time,
+priorities conflicts, parallel hardware and software development mean that delivery
+and launch deadlines are not always met with the adequate level of satellite software
+testing.
+
+Building on the experience of other projects can reduce development times, allowing
+for more time to be allocated for software testing in an operational scenario. OpenSource
+allows such approach with projects like PyCubed\cite{Holliday2019PyCubed} and others
+\cite{shalashov2021OpenSourceCubeSatReview}, mostly focusing on Linux distributions.
+\textit{RIOT, Open-Source}
+
+Bugs will still be present, and even in some cases new or missing functionality
+might need to be implemented and deployed after launch. In-orbit software updates
+is common and standard in Large Scale Satellites but is much less documented
+for nanosatellites,\cite{sunter2016updatesnano} \cite{maison2021otaeducubesat}.
+But in most cases these all consist on firmware updates, cases where individual
+software modules or business logic are updated have not been studied. They seldom
+talk about security and authenticity.
+
+The ThingSat project was such scenario, the inherent challenges of any Education
+CubeSat project where intensified by the COVID pandemic. Experiment and mission
+firmware will simple not be able to be delivered on time (X amount of time between
+CubeSat payload delivery and lunch).
+
+Payload last point in Ground-Flight chain, with little to no control over what
+happens in the middle. With tight regulation over space communication (noise),
+risk of hacking, etc. any firmware update or software update delivered to the
+payload must be checked for corruption but also tampering. Different subsystems
+requiring updates by different stakeholders.
+
+Ground-Flight communication increases the challenges here because of the limited
+bandwidth, high latency, etc.
+
+\textit{Paper contributions, Paper organization}

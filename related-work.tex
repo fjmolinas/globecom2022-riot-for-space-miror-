@@ -1,28 +1,43 @@
-\section{Background \& Related Work} 
+\section{Background \& Related Work}
 \label{sec:background-related-work}
 
-\subsection{CubeSat} 
+\subsection{CubeSat}
 \label{sec:cubesat}
-
-\subsection{Cube Sat Protocol (CSP)} 
-\label{sec:csp}
-
 \paragraph*{Architecture}
 % - electronics
 % - connectivity
 % - payloads, obc, etc..
+\paragraph*{Context}: largely educational, learning platform
 
-\subsection{Open Source} \cite{shalashov2021OpenSourceCubeSatReview}, \cite{Holliday2019PyCubedAO}
+% \subsection{Cube Sat Protocol (CSP)}
+% \label{sec:csp}
+\subsection{Firmware and Software Updates}
+\label{sec:fu-cubesat}
+
+\paragraph*{Challenges of firmware updates in space}: link budget, memory corruption
+due to space radiation, high latency, etc.
+\paragraph*{Microcontroller}: studies issues related to firmware updates of in
+orbit satellite subsystems \cite{sunter2016updatesnano}.
+\paragraph*{Linux systems}: most of the work in literature has focused on OBC firmware
+updates, which tend to be linux systems. Most solutions target on-board storage
+and error correction. \cite{FitzsimmonsReliableSoftwareUpdates}
+\paragraph*{ThingSat Differences}: noy only firmware updates but also isolated business
+logic or software updates of individual subsystems components. Educational missions
+often a small part of the business logic needs to be updated.
+\paragraph*{Authenticity of Delivered updates}: as tenant, no control over deployment
+chain, risk of hacking, compliance with regulations, etc.
+\paragraph*{Benefits of MCU payload}: power consumption (how much
+on time as a Satellite tenant).
+
+\subsection{Open Source} \cite{shalashov2021OpenSourceCubeSatReview}, \cite{Holliday2019PyCubed}
 \paragraph*{Why Open-Source Satellite Initiatives}
 \paragraph*{pyCube, etc.}
 % - overview of alternatives
-% - hardware software overview
+% - value of open source leveraging alternatives
+\paragraph*{RIOT}: project overview, architecture overview\cite{baccelli2018riot}
 
-\subsection{LoRa} \cite{saeed2020CubeSatReview} 
+
+\subsection{LoRa}
 \label{sec:lora-cubesat}
-\paragraph*{CubeSat LoRa missions}
-\paragraph*{Research topics, challenges of LoRa in space}
-
-\subsection{RIOT} \cite{baccelli2018riot}
-\paragraph{Overview of the Project}
-\paragraph{Overview of the architecture}
+\paragraph*{CubeSat LoRa missions} \cite{saeed2020CubeSatReview}
+\paragraph*{Research topics, challenges of LoRa in space} \cite{saeed2020CubeSatReview}
