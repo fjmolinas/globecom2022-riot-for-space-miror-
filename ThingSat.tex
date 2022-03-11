@@ -2,29 +2,30 @@
 \label{sec:case-study}
 
 \subsection{Overview}
-\paragraph*{Project}: why rent space on a ThingSat
-\paragraph*{Mission Goal}
-\paragraph*{Broad overview of Segments}
+\paragraph*{Mission Goal:} in-orbit observation of glaciers in Europe and in Polynesia.
+\paragraph*{Approach}: rent "rack" space as payload on a CubeSat (SatRevolution).
+\paragraph*{High-level overview of Segments}
 
-\subsection{Architecture}
+\subsection{Distributed System Architecture}
 \paragraph*{Ground Segment Description}
 \paragraph*{Space Segment Description}
 \paragraph*{Control Segment} % Francisco: not sure if its the right name
 \paragraph*{OBC \& Payload Communication Bus}
 \paragraph*{Payload Description}: tenant status, energy budget, on time etc.
-\paragraph*{Communication Chain}: how are new firmware, payloads delivered,
-who has access, etc..
 % - OBC -> SatRev controlled
 % - Payload -> Full Control
 
-\subsection{Telecommunications}
+\subsection{Communication Characteristics}
 \paragraph*{link-budget Mission Control}: delivering and communicating mission
 files, delivering software updates, latency, etc.
 \paragraph*{link-budget Mission}: communication between OBC and Payload, payload
 active time for communication with ground segments.
 
-\subsection{Constraints}
-\paragraph*{Project}: timeline for deployment, CoVID context, etc. making it impossible
+\subsection{Software Updates Requirements}
+\paragraph*{What needs updates}: ?
+\paragraph*{Why?}: timeline for deployment, CoVID context, etc. making it impossible
 to deliver a fully functional device in time. Need to update the firmware remotely
 and in orbit.
+\paragraph*{Communication Chain}: how are new firmware, payloads delivered,
+who has access, etc..
 
