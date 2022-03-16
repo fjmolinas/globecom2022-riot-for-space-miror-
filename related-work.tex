@@ -3,15 +3,43 @@
 
 \subsection{CubeSat Software Updates}
 \label{sec:fu-cubesat}
-\paragraph*{Microcontroller}: studies issues related to firmware updates of in
-orbit satellite subsystems \cite{sunter2016updatesnano}.
-\paragraph*{Linux systems}: most of the work in literature has focused on OBC firmware
+\textit{Microcontroller}: studies issues related to firmware updates of in orbit
+satellite subsystems \cite{sunter2016updatesnano}.\\
+\textit{Linux systems}: most of the work in literature has focused on OBC firmware
 updates, which tend to be linux systems. Most solutions target on-board storage
-and error correction. \cite{FitzsimmonsReliableSoftwareUpdates}
+and error correction. E.g.: \cite{FitzsimmonsReliableSoftwareUpdates} focuses on
+reliability of updates.\\
+\textit{Securing Satelites Uplink}: NUTS (NTNU Test Satellite)\cite{birkeland2014nutsoverview}
+research is focused on authenticated and secure uplinks for ground-flight communication but
+uses mainly symmetric cryptography. Uses CSP. Authentication is HMAC challenge
+\cite{Muench2014IntegrationAV} based using timestamps \cite{bezem2013nutsAuthenticatedUplink}.
+\cite{yasir2021EncryptioUnitSat} secure communication via encryption with AES, diffie-hellman
+and HMAC, its tested on atmega32.\\
+\textit{OTA for Educational CubeSat}\cite{maison2021otaeducubesat}: uses MD5 for
+authentication based on the fact that there will be a limited amount of messages.
+Does not use public key signing because it makes for messages that look like encrypted
+data, frowned upon in radio-amateurs community. Modifies linker script to achieve
+small firmware payloads and targeted updates.\\
+\textit{Firmware Updating Systems for nanosatellites}\cite{sunter2016updatesnano}:
+stm32f103, stm32217, atmega1280, msp420, using FreeRtos, TinyOS and baremetal. Focused
+on retransmissions, re-ordering schemes and image backups.\\
 
 \subsection{CubeSat Open Source Software}
 \label{sec:open-source-cubesat}
-\paragraph*{pyCube, etc.}
+\textit{pyCubed}:\cite{Holliday2019PyCubed}: OpenSource CircuitPython based CubeSat
+ecosystem: hardware and software. CORTEX-M4 MCU (atsamd51). Claims to support
+over the air updates, seems to be based on eval, exec(),\\
+giving a kind of (powerful and dangerous) containerization.
+\textit{LibreSpace}: first open source satellite with UPSat, open source pico-satellite
+with Qubik. Runs on a stm32l476.\\
+\textit{FloriPaSat}: archived project, FreeRTOS runs on MSP430.\\
+\textit{CubesatSim}:\cite{amsatcubesat} OpenSource raspberry-pi based hardware and
+software CubeSat simulator.\\
+\textit{OreSat}\cite{spivey2021oresat}: OpenSource ecosystem, uses stm32f4 for OBC
+and stm32f0 for most payloads, bus CAN, ChibiOS. Claims to be able to perform
+firmware updates from a file, M4 is able to fee the different M0 with updates.\\
+\textit{FOSSASat}: OpenSource LoRa satellite concentrator, uses a stm32l452re OBC,
+Arduino based.\\
 %\paragraph*{Architecture}
 % - electronics
 % - connectivity
@@ -22,15 +50,15 @@ and error correction. \cite{FitzsimmonsReliableSoftwareUpdates}
 % \label{sec:csp}
 
 
-\subsection{ThingSat/paper contributions} 
-Not only firmware updates but also isolated business
-logic or software updates of individual subsystems components. Educational missions
-often a small part of the business logic needs to be updated.
+\subsection{ThingSat/paper contributions}
+Not only firmware updates but also isolated business logic or software updates of
+individual subsystems components. Educational missions often a small part of the
+business logic needs to be updated. Standards usage.
 \paragraph*{Authenticity of Delivered updates}: as tenant, no control over deployment
 chain, risk of hacking, compliance with regulations, etc.
-\paragraph*{Benefits of MCU payload}: power consumption (how much
-on time as a Satellite tenant).
-
+\paragraph*{Benefits of MCU payload}: power consumption (how much on time as a Satellite tenant).
+\paragraph*{OpenSource}: by using an OS like RIOT its much easier to change hardware,
+or test on different hardware. It allows for the ecosystem to grow and evolve.
 
 \iffalse
 
