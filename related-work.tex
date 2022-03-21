@@ -1,6 +1,25 @@
 \section{Related Work}
 \label{sec:background-related-work}
 
+
+{\bf Open source hardware and software are increasingly used on low-cost CubeSats}, including on microcontroller parts.
+For instance pyCubed~\cite{Holliday2019PyCubed} proposes open source CubeSat hardware based on an Arm Cortex-M4 (atsamd51) microcontroller and corresponding open source software based on Python (Adafruit CircuitPython).
+OreSat~\cite{spivey2021oresat} designs a CubeSat also based on microcontrollers, and provides corresponding open source software.
+Oragnisations such as the Libre Space Foundation~\cite{librespace} harbor a number of open source software code basis for CubeSats, such as UPSat, Qubik. 
+
+Once the CubeSat is in orbit, during its lifetime, the software it embarks must typically be updated over-the-air.
+Some work such as~\cite{FitzsimmonsReliableSoftwareUpdates} has focused on the reliability of the ground-flight link for CubeSat firmware updates.
+Other work has focused on mitigating radiation effects corrupting firmware storage and on error correction, such as in \cite{yuen2019low} or partly in \cite{sunter2016updatesnano}.
+A vanilla approach to securing low-cost CubeSat software updates, such as described in~\cite{maison2021otaeducubesat}, only uses weak security primitives (e.g., MD5 integrity checks) instead of strong primitives such as authentication with digital signatures and encryption.
+However, recent cyberattacks such as the ViaSat outage in Ukraine~\cite{viasat-cyberattack} suggest that, as CubeSat systems become more popular, they are likely to also become more prone to cyberattacks.
+A crucial related challenge is thus {\bf how to provide strong security for software updates} while in orbit.
+Prior work such as NUTS~\cite{birkeland2014nutsoverview,bezem2013nutsAuthenticatedUplink} has focused on authentication and communication security over the ground-flight uplink for firmware updates.
+
+To the best of our knowledge, however, no prior work exists on providing strong security for software updates on a low-power CubeSat \textit{payload}, via a satellite uplink and an OBC that are \textit{both potentially untrusted}.
+
+
+\iffalse
+
 \subsection{CubeSat Software Updates}
 \label{sec:fu-cubesat}
 \textit{Microcontroller}: studies issues related to firmware updates of in orbit
@@ -9,7 +28,7 @@ satellite subsystems \cite{sunter2016updatesnano}.\\
 updates, which tend to be linux systems. Most solutions target on-board storage
 and error correction. E.g.: \cite{FitzsimmonsReliableSoftwareUpdates} focuses on
 reliability of updates.\\
-\textit{Securing Satelites Uplink}: NUTS (NTNU Test Satellite)\cite{birkeland2014nutsoverview}
+\textit{Securing Satellites Uplink}: NUTS (NTNU Test Satellite)\cite{birkeland2014nutsoverview}
 research is focused on authenticated and secure uplinks for ground-flight communication but
 uses mainly symmetric cryptography. Uses CSP. Authentication is HMAC challenge
 \cite{Muench2014IntegrationAV} based using timestamps \cite{bezem2013nutsAuthenticatedUplink}.
@@ -30,9 +49,9 @@ on retransmissions, re-ordering schemes and image backups.\\
 ecosystem: hardware and software. CORTEX-M4 MCU (atsamd51). Claims to support
 over the air updates, seems to be based on eval, exec(),\\
 giving a kind of (powerful and dangerous) containerization.
-\textit{LibreSpace}: first open source satellite with UPSat, open source pico-satellite
+\textit{LibreSpace}: \cite{librespace} open source satellite with UPSat, open source pico-satellite
 with Qubik. Runs on a stm32l476.\\
-\textit{FloriPaSat}: archived project, FreeRTOS runs on MSP430.\\
+%\textit{FloriPaSat}: archived project, FreeRTOS runs on MSP430.\\
 \textit{CubesatSim}:\cite{amsatcubesat} OpenSource raspberry-pi based hardware and
 software CubeSat simulator.\\
 \textit{OreSat}\cite{spivey2021oresat}: OpenSource ecosystem, uses stm32f4 for OBC
@@ -49,6 +68,7 @@ Arduino based.\\
 % \subsection{Cube Sat Protocol (CSP)}
 % \label{sec:csp}
 
+\fi
 
 \subsection{ThingSat/paper contributions}
 Not only firmware updates but also isolated business logic or software updates of
