@@ -1,24 +1,68 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Driven in parts by the increasing involvement from public research and the academic community~\cite{cubesat101}, more and more open source software and hardware is available, maturing and used on CubeSats.
+Driven in parts by the increasing involvement from public research and the academic
+community~\cite{cubesat101}, more and more open source software and hardware is available,
+maturing and used on CubeSats.
 
-The availability of such a basis tends to lower the bar of entry, with the view to designing low-cost CubeSats which can more reliably achieve a successful launch -- until recently, the failure
-rate was still around 60\% for first-time satellite builders~\cite{Holliday2019PyCubed}.
+The availability of such a basis tends to lower the bar of entry, with the view to
+designing low-cost CubeSats which can more reliably achieve a successful launch --
+until recently, the failure rate was still around 60\% for first-time satellite
+builders~\cite{Holliday2019PyCubed}.
 
-Another trend aiming to lower the bar of entry is to buy tiny "rack-space" in orbit~\cite{satrevolution2020}.
-With this model, a stakeholder (a user) can place a small ($<$1U) payload slot hosted inside a CubeSat provided by an operator (a different stakeholder).
-The user only needs to design and operate this payload, instead of designing and operating the whole CubeSat, which drastically reduces users' costs and lead time.
-Typically, such a payload boils down to a printed circuit board (PCB) with sensors, a low-power CPU (sometimes with separate wireless communication capabilities) and a connector to the local bus communication to the main on-board flight computer (OBC) on the CubeSat.
-As such, a hosted payload on a CubeSat resembles small embedded devices usually found in the Internet of Things (IoT).
+Another trend aiming to lower the bar of entry is to buy tiny "rack-space" in
+orbit~\cite{satrevolution2020}. With this model, a stakeholder (a user) can place
+a small ($<$1U) payload slot hosted inside a CubeSat provided by an operator
+(a different stakeholder). The user only needs to design and operate this payload,
+instead of designing and operating the whole CubeSat, which drastically reduces users'
+costs and lead time. Typically, such a payload boils down to a printed circuit board
+(PCB) with sensors, a low-power CPU (sometimes with separate wireless communication
+capabilities) and a connector to the local bus communication to the main on-board
+flight computer (OBC) on the CubeSat. As such, a hosted payload on a CubeSat
+resembles small embedded devices usually found in the Internet of Things (IoT).
 
-Nevertheless, even with an entry bar lowered by combining a hosted payload approach with leveraging open source, software embarked on launched CubeSats tends to be minimalistic (think: space rush, time pressure to meet hard launch deadlines...) and buggy, as most software is. In effect, hosted CubeSat payload software must typically be updated over-the-air (OTA) regularly, after it is deployed in orbit and in operation. Beyond enabling (OTA) software updates on a hosted CubSat payload, cybersecurity is an crucial aspect which emerges. Indeed, on the one hand software updates can  be used to fix vulnerabilities but on the other hand tampering with software updates can be used as cyberattack vector~\cite{ccleaner}.
+Nevertheless, even with an entry bar lowered by combining a hosted payload approach
+with leveraging open source, software embarked on launched CubeSats tends to be
+minimalist (think: space rush, time pressure to meet hard launch deadlines...
+and buggy, as most software is. In effect, hosted CubeSat payload software must
+typically be updated over-the-air (OTA) regularly, after it is deployed in orbit
+and in operation. Beyond enabling (OTA) software updates on a hosted CubSat payload,
+cybersecurity is an crucial aspect which emerges. Indeed, on the one hand software
+updates can  be used to fix vulnerabilities but on the other hand tampering with
+software updates can be used as cyberattack vector~\cite{ccleaner}.
 
-State-of-the-art has so far focused on single stakeholder CubeSats use cases. In this paper, we thus focus on the challenge of securing software updates on low-cost multi-tenant CubeSats, whereby the OBC and the payload are operated by different stakeholders which do not trust each other. 
-In particular, we focus on payloads based on low-power microcontrollers, which are essential on low-cost CubeSats, where low power consumption is key.
+State-of-the-art has so far focused on single stakeholder CubeSats use cases. In
+this paper, we thus focus on the challenge of securing software updates on low-cost
+multi-tenant CubeSats, whereby the OBC and the payload are operated by different
+stakeholders which do not trust each other. In particular, we focus on payloads
+based on low-power microcontrollers, which are essential on low-cost CubeSats, where
+low power consumption is key.
 
+The contributions of out work are two-fold. We present an architecture for secure
+and standards based end-to-end software update on low-power microcontroller based
+CubeSat payloads. This solution is motivated and designed against ThingSat, a
+deployed CubeSat case-study showing the heterogeneity of update targets and
+involved network transports. We then implement this architecture for ThingSat,
+and released these developments in benefit of the RIOT OpenSource community
+as well the CubeSat community by providing a base for a collaborative continuous
+integration platform allowing to test and verify the update-ability and functionality
+of low-power embedded CubeSat payloads.
 
+\textit{Paper contributions Bullet Points}
+\begin{itemize}
+    \item ThingSat case study
+    \begin{itemize}
+        \item shows heterogeneity of update targets (firmware, software, configs)
+        \item using diverse network transports and through different intermediaries
+    \end{itemize}
+    \item An Architecture for secure and standards based end-to-end software updates
+          for low-power MCU CubeSat payloads
+    \item Open source implementation of such architecture
+    \item Base for a collaborative continuous integration platform allowing to
+          test and verify the continuos deployment chain.???
+\end{itemize}
 
+\textit{Paper Organization}
 
 \iffalse
 
@@ -69,11 +113,3 @@ bandwidth, high latency, etc.
 due to space radiation, high latency, etc.
 
 \fi
-
-\paragraph*{Paper Contributions \& Organization}
-
-\begin{itemize}
-\item Contributions.
-\item Paper organization.
-\end{itemize}
-
