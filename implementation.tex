@@ -4,32 +4,25 @@
 \subsection{Payload}
 \label{sec:paylod}
 \subsubsection{Hardware}
-\paragraph*{MCU} 
-\paragraph*{LoRa Radio} 
-\paragraph*{LoRa Gateway} 
+\paragraph*{MCU}
+\paragraph*{LoRa Radio}
+\paragraph*{LoRa Gateway}
 
 \subsubsection{Firmware}
-\paragraph*{libCSP} 
-\paragraph*{CoAP}  % or SFP + RDP...
-\paragraph*{CAN} 
-\paragraph*{LoRaWAN} 
-\paragraph*{Application Code}
-% - Heartbeat
-% - Mission task
-% - Watchdog
-% - Two Line Element
+\paragraph*{libCSP}
+\paragraph*{CoAP} or SFP\&RDP
+\paragraph*{CAN}
+\paragraph*{LoRaWAN}
+\paragraph*{Application Code}: heartbeat, basic status updates, GPS, time, etc..
 \subsubsection{Code Structure}
 
 \subsection{OBC Simulator}
 
-\subsection{Continuos Integration - Leveraging OpenSource}
-\paragraph*{RIOT}
-% - pointers to simulator-payload integations
-% - LibCSP in RIOT
-% - SUIT workflow examples in RIOT
-% - container examples in RIOT
-% - LoRaWAN examples in RIOT
-\paragraph*{ThingSat}
-% - OBC & Payload integration tests
-% - gitlab CI build tests and others
+\subsection{Continuos Integration \- Leveraging OpenSource}
+\paragraph*{ThingSat}: pointers to repository with OBC-simulator as well as payload
+implementing basic functionalities: GPS, time, orientation, fetch mission files, fetch updates.
+CI running software and firmware updates tests on ThingSat using UP blob, as well
+as modified SFP\&RDP or COAP architecture.
+\paragraph*{Contributions into RIOT tree}: LibCSP package, SUIT workflows for non
+firmware payloads. SX1302 and SX1280 drivers.
 

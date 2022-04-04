@@ -1,16 +1,35 @@
-\section{Low Power Orbital Communication Architecture}
+\section{Low Power in-Orbit Continuos Deployment Architecture}
 \label{sec:low-power-orbital-communicaiton-arch}
 
-\subsection{Requirements} 
-\paragraph*{communication protocols} 
-\paragraph*{software/firmware updates} 
-\paragraph*{software/configuration updates requirements} 
+The process we use for securing ThingSat software udpates is decomposed in six phases shown \autoref{fig:phases}. During a preliminary phase (\textit{Phase 0}) the authorized maintainer for the CubeSat hosted payload
+produces and flashes the payload with commissioning material:
+the bootloader, the initial image, and authorized crypto material (a public key, and a crypographically strong hash function).
+Once the hosted payload is commissioned it can be sent to the CubeSat operator of installation in the CubeSat.
+Once the CubeSat in orbit, the hosted payload maintainer can trigger iterations through cycles of phases 1-5, whereby
+the authorized maintainer can build a new software update (\textit{Phase 1}), hash
+and sign the update (\textit{Phase 2}) and initiate a network transfer (PUT) to hosted payload via the ground station and the OBC. The hosted payload can
+then fetch the update from the OBC (\textit{Phase 3}), proceed to verify the signature and the hash (\textit{Phase 4}),
+and upon successful verification, the new software is installed and
+booted (\textit{Phase 5}), otherwise the update is dropped.
 
-\subsection{Architecture} 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/CubeSat-Payload-update.png}
+    \caption{CubeSat hosted payload secure software update process.}
+    \label{fig:phases}
+\end{figure}
+
+
+\subsection{Requirements}
+\paragraph*{communication protocols}
+\paragraph*{software/firmware updates}
+\paragraph*{software/configuration updates requirements}
+
+\subsection{Architecture}
 \subsubsection{OS}: RIOT
 \subsubsection{Network Stack}: COAP/LibCSP/CAN
 \subsubsection{Mission Workflow}: mission files
 \subsubsection{DevOps Workflow}: SUIT + containers
 \paragraph*{SUIT}
-\paragraph*{Containerization} 
+\paragraph*{Containerization}
 
