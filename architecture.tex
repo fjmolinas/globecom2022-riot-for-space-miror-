@@ -1,16 +1,26 @@
-\section{Low Power Orbital Communication Architecture}
+\section{Low Power in-Orbit Continuos Deployment Architecture}
 \label{sec:low-power-orbital-communicaiton-arch}
 
-\subsection{Requirements} 
-\paragraph*{communication protocols} 
-\paragraph*{software/firmware updates} 
-\paragraph*{software/configuration updates requirements} 
+The process we designed for securing ThingSat software udpates is decomposed in six phases shown \autoref{fig:phases}.
 
-\subsection{Architecture} 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/CubeSat-Payload-update.png}
+    \caption{CubeSat hosted payload secure software update process.}
+    \label{fig:phases}
+\end{figure}
+
+
+\subsection{Requirements}
+\paragraph*{communication protocols}
+\paragraph*{software/firmware updates}
+\paragraph*{software/configuration updates requirements}
+
+\subsection{Architecture}
 \subsubsection{OS}: RIOT
 \subsubsection{Network Stack}: COAP/LibCSP/CAN
 \subsubsection{Mission Workflow}: mission files
 \subsubsection{DevOps Workflow}: SUIT + containers
 \paragraph*{SUIT}
-\paragraph*{Containerization} 
+\paragraph*{Containerization}
 
