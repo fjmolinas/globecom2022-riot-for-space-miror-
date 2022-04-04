@@ -18,14 +18,29 @@ Prior work such as NUTS~\cite{birkeland2014nutsoverview,bezem2013nutsAuthenticat
 To the best of our knowledge, however, no prior work exists on providing strong security for software updates on a low-power CubeSat \textit{payload}, via a satellite uplink and an OBC that are \textit{both potentially untrusted}.
 This hosted CubeSat use-case is depicted in \autoref{fig:e2e}.
 
-
-
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.5\textwidth]{Figures/CubeSat-Payload-End2End.png}
     \caption{CubeSat hosted payload software update security end-to-end.}
     \label{fig:e2e}
 \end{figure}
+
+
+\subsection*{Paper contributions}
+The main contributions of this paper are the following
+\begin{itemize}
+    \item We provide a case-study: ThingSat, a low-power, low-cost payload hosted on a CubeSat, the constraints and requirements of which we analyse concerning in-orbit software updates;
+%    \begin{itemize}
+%        \item shows heterogeneity of update targets (firmware, software, configs)
+%        \item using diverse network transports and through different intermediaries
+%    \end{itemize}
+    \item We define Cubedate, a generic architecture for secure and standards-based end-to-end software updates for low-power payloads hosted on low-cost CubeSat;
+    \item We provide and evaluate an open source implementation of Cubedate, applied to ThingSat;
+    \item ??? We provide a basis for a collaborative continuous integration platform using Cubedate, allowing to test and verify the continuous deployment chain of software updated and running on CubeSat payloads.???
+\end{itemize}
+
+\textit{Paper Organization --}
+TBD.
 
 
 \iffalse
