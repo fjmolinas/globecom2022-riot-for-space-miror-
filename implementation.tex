@@ -1,28 +1,118 @@
 \section{Cubedate Implementation}
 \label{sec:implementation}
 
-\subsection{Payload}
-\label{sec:paylod}
-\subsubsection{Hardware}
-\paragraph*{MCU}
-\paragraph*{LoRa Radio}
-\paragraph*{LoRa Gateway}
+SUIT is used in CubeDate payloads as a \textit{Data Delivery Mechanism} bundling
+the security properties described in section IV D. The implementation described
+next seeks to remain generic to be re-usable in different scenarios while tailored
+for the Satellite ThingSat use case.
 
-\subsubsection{Firmware}
-\paragraph*{libCSP}
-\paragraph*{CoAP} or SFP\&RDP
-\paragraph*{CAN}
-\paragraph*{LoRaWAN}
-\paragraph*{Application Code}: heartbeat, basic status updates, GPS, time, etc..
-\subsubsection{Code Structure}
+SUIT state machine running on the deployed device does not need to care about
+how this \textit{Data} is delivered or where it will be installed, it just
+needs to be handed a \textit{manifest}.
 
-\subsection{OBC Simulator}
+\begin{itemize}
+    \item \textbf{Data Resource URI}: a locally (e.g.: mounted USB  device) or remotely
+    (HTTP or CoAP endpoint) accessible file.
+    \item \textbf{Data Resource Delivery Mechanism}: transport mechanism to deliver SUIT:
+    e.g. \{message model, network stack, network interface\}
+    bundle, or FileSystem \textit{read/write} functions.
+    \textit{manifest} and data resource to the SUIT state machine.
+    \item \textbf{Data Resource Installation Storage}: internal or external Volatile or
+    Non-volatile storage, e.g. RAM (mission files, FemtoContainers\cite{zandberg2021femto})
+    or FileSystem or internal FLASH.
+\end{itemize}
 
-\subsection{Continuos Integration \- Leveraging OpenSource}
-\paragraph*{ThingSat}: pointers to repository with OBC-simulator as well as payload
-implementing basic functionalities: GPS, time, orientation, fetch mission files, fetch updates.
-CI running software and firmware updates tests on ThingSat using UP blob, as well
-as modified SFP\&RDP or COAP architecture.
-\paragraph*{Contributions into RIOT tree}: LibCSP package, SUIT workflows for non
-firmware payloads. SX1302 and SX1280 drivers.
+As the case where the Data Resource URI points to a locally available is simply a
+simplified case, a networked scenario with a URL will be described.
+
+\francisco{PLACE HOLDER FOR A DIAGRAM}
+
+\subsection{Message Model, Request/Response Semantics}
+
+A \texttt{client/sever} model adequately represents the interactions between the SUIT state
+machine (ran in the \textit{payload}) and the Data Resource. In the scope of the
+update process the \textit{payload} will act as the client requesting a \textit{manifest}
+and sequently the \textit{Data Resource}, but in the global picture it will act
+as both \texttt{client \& server}, answering to queries from the OBC or the
+ground-segment. ThingSat uses UP \francisco{some info on UP}, a proprietary message
+model enabling request-response type interactions, which can be replaced by a
+generic \texttt{Request/Response} layer.
+
+\texttt{CoAP} is therefore used because its designed to run on a connection-less transport
+and offers little overhead in the exchanged messages as well as support for exchanging
+messages larger than the underlying protocols MTU (\francisco{cite block coap}
+(4 \texttt{bytes} \texttt{CoAP} header, 0-3 extra \texttt{bytes} for block transmissions).
+Using a standard like \texttt{CoAP} allows for simplified integration into \textit{North-bound}
+application code, e.g.: \texttt{SUIT} as well as allowing to easily replace the
+\texttt{South-bound} network-stack.
+
+Note that a \texttt{Request/Response} approach is not a requirement, but makes
+for a clean architecture.
+
+\subsection{Network Stack}
+
+A CubeSat Network will commonly be split into two segments: an in-orbit segment
+(OBC \& \textit{payloads}) and a Ground-segment (Ground Station). This motivated
+the existence of the \textit{Cubesat Space Protocol CSP} deployed on Satellites
+such as Nuts, GomSpace, etc. \francisco{cite}. But recent deployments see CubeSats
+as part of larger Network such as LoRaWan \francisco{cite fossa}, and IP based
+networks are also present on CubeSats.
+
+\textit{CSP} usage was a requirements specified from SatRevolution as the network
+stack to use for ThingSat. Nonetheless this implementation aspired to be agnostic
+in design to the network stack, allowing to easily replace it by e.g. an
+\texttt{IPV6/UDP} or \texttt{LoRaWAN} stack.
+
+This was done by using a {\bf A generic North-bound interface} called \texttt{sock}
+which provides a socket-like API for network stacks. Although designed for IP,
+it can be wrapped around CSP if care is taken to handle addressing.
+
+\subsection{Communication Bus}
+
+\texttt{LibCSP} and \textit{CSP} support several physical layers such as CAN, I2C,
+RS-232, network interfaces wrappers also exist for TAP, ZMQ, and can be easily
+extended to cover the radio link between the \textit{Satellite} and
+\textit{Ground-Segment}. The physical layers supported are not random, they match
+the most common serial communication interfaces found on \textit{Satellite}
+payloads, OBC and components. Ethernet is also commonly available  but prohibitive
+in most microcontrollers based use-case because of its high power consumption.
+\francisco{add some details on CAN?}
+
+CAN was used since it provides an extremely robust, simple and efficient,
+widely proven in the automotive, flight and space industry.
+
+\subsection{Operating System: RIOT}
+
+RIOT is a general-purpose OS designed for small IoT devices based on micro-controllers.
+It provides with blah blah..
+
+\subsubsection{Integrating LibCSP and RIOT}
+
+Details on the integrations work, learned lessons and sufferings.
+
+\subsection{Continuos Integration \- Collaborative Platform}
+
+The CubeDate architecture was implemented on ThingSat (using UP instead of CoAP).
+A Continuous Integration collaborative platform mimicking the update workflow described
+in section \francisco{section?}. This consist on a minimal implementation of the
+\texttt{OBC} - \texttt{payload} interactions.
+
+The \texttt{OBC} can be ran on RIOTs \texttt{native} platform with a mounted
+FileSystem or on any RIOT \texttt{board} with an `sdcard` slot or adapter.
+\textit{manifests} and matching \textit{Data-Resources} can be pushed to the
+\texttt{OBC} which in its turn acts as a \texttt{CoAP} file-server.
+
+The Payload can run on RIOTs \texttt{native} platform or on any \texttt{RIOT}
+\texttt{board}. Different \textit{Data-Resources} can be delivered to RAM,
+External NVM or internal NVM (FLASH), simulating delivery of mission files,
+firmware updates or other.
+
+Both \texttt{OBC} and \texttt{payload} run over \texttt{LibCSP} over CAN. If
+using \texttt{native} \texttt{SocketCAN} is used to create virtual can
+devices.
+
+\francisco{Place Holder of Diagram of the CI}
+
+The developments related to this paper where in release in open-source form for
+the benefit of CubeSat and RIOT communities and can be found at.
 
