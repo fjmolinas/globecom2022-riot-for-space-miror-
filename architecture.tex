@@ -2,8 +2,7 @@
 \label{sec:low-power-orbital-communication-arch}
 
 
-The minimal security guarantees that we aim for are authenticity and integrity of software udpates, during the lifetime of the satellite mission.
-These guarantees must remain valid end-to-end, all the way from the hosted payload software maintainer to the payload hosted in orbit on the CubeSat.
+The minimal security guarantees that we aim for are authenticity and integrity of software udpates, during the lifetime of the satellite mission (5-10 years).
 The basic process we use for securing authenticity and integrity of software udpates is decomposed in six phases shown \autoref{fig:phases}. 
 
 \subsection{Basic Software Life-cycle Phases}
@@ -30,32 +29,35 @@ and upon successful verification, install/boot the new software (\textit{Phase 5
 \subsection{Supporting Network Transport Heterogeneity}
 This aspect concerns both \textit{Phase 3.1} and \textit{Phase 3.2} in \autoref{fig:phases}. 
 
-First of all, software updates may be transported over a wide variety of network segments.
+Security guarantees on software updates must remain valid "end-to-end".
+Depending on the use-case "end-to-end" spans differently, as depicted for example in \autoref{fig:e2e}. In the most complex case we tackle in this paper, end-to-end means all the way from the hosted payload software maintainer to the payload hosted in orbit on the CubeSat.
+
+First of all, software updates may be transported over multiple network links or varying nature: 
 \begin{itemize}
 \item {\bf Developer to Groundstation}: via wired Internet, USB key upload...
-\item {\bf Groundstation to CubeSat}: via radio links such as UHF, LoRa...
+\item {\bf Groundstation to CubeSat}: via long-range radio links such as UHF, LoRa...
 \item {\bf Intra-CubeSat}: via bus communication such as CAN/CSP, SPI...
 \end{itemize}
 
 Second, paths across the network may vary in complexity.
-In the simplest case the end-to-end network path covers only the segment from a ground station to the OBC (or directly to the hosted payload via its own radio interface, if it has one as described in section XXX).
+In the simplest case the end-to-end network path covers consists in a single segment: from a ground station either to the OBC, or to the hosted payload directly via its own radio interface, if it has one (as described in \autoref{sec:thingsat-comm-characteristics}).
 In more complex cases involving hosted payloads, not only
-must the end-to-end path traverse heterogeneous network segments,
+must the end-to-end path traverse multiple heterogeneous network segments,
 but also: this path may never exist end-to-end at any point in time.
 This Delay-tolerant network characteristic is due to power-off periods imposed on CubeSat hosted payloads, 
-combined with orbiting CubeSat being out-of-range most of the time via radio w.r.t. available ground stations.
+combined with fact that CubeSat are out-of-range for ground stations radios a large part of the time.
 Hence, while in transit across the network, software update data may have to be temporarily cached at some intermediate node along the path.
 
-To cope with this wide variety of scenarios, different solutions may be used at the network, transport and application layers. \todoEB{Add here some short text about what ThingSat does, also hint at exotic things such as ICN?}. 
+To cope with this wide variety of network paths and links (including ultra-constrained low-power elements), different approaches can be envisionned at the network layer, the transport layer and the application layer. Approaches span from proprietary solutions, to standards such as the low-power IPv6 protocol stack (6LoWPAN, UDP, CoAP \cite{morabito2020ietf}) or experimental stacks such as information-centric networking which can benefit from in-network caching even with small caches on microcontrollers \cite{hahm2017low}. 
 
-
-However, Cubedate does not specify the use of any particular approach at the network, transport and application layers to enable the delivery of software updates across the network.
-Cubedate only aims to guarantee end-to-end security properties for the software update binaries delivered over the network.
+In order to retain generality, Cubedate does not specify the use of any particular approach at the network, transport and application layers to enable the delivery of software updates across the network.
+Cubedate only aims to guarantee end-to-end security properties for the software update binaries that are delivered over the network.
 
 \subsection{Supporting Updated Software Heterogeneity}
 This aspect concerns both \textit{Phase 1} and \textit{Phase 5} in \autoref{fig:phases}. 
 Software that must be updated may be of various nature, and size.
-(1 )Firmware updates, (2) Mission/configuration files, (3) things like Femto-containers?.
+
+(1) Firmware updates, (2) Mission/configuration files, (3) things like Femto-containers?.
 
 \subsection{Low-power Standardized End-to-End Security}
 

@@ -80,36 +80,72 @@ interact with the hosted payload.
 % - Payload -> Full Control
 
 \subsection{Communication Characteristics Overview}
+\label{sec:thingsat-comm-characteristics}
 % \paragraph*{link-budget Mission Control}: delivering and communicating mission
 % files, delivering software updates, latency, etc.
 
 The Thingsat payload communicates either directly via LoRa, or indirectly via the UHF link provided by the cubesat's OBC.
 
-\paragraph*{Direct communication patterns} LoRa communication patterns are illustrated in figure \ref{fig:thingsat-comm}.
-As depicted, the Thingsat payload may act in turns as either 
-i) a Sat-IoT end-device (ED) that will send Lora frames to terrestrial LoRaWAN gateways or Thingsat ground
-stations (GS) or 
-ii) an in-orbit LoRa sniffer or iii) a store-carry-and-forward LoRa gateway.
+\paragraph*{Direct communication patterns}
+LoRa communication patterns are illustrated in figure \ref{fig:thingsat-comm}.
+Thingsat can communicate directly with its LoRa interface, with LoRa network elements on the ground.
 
-The first and second scenarios allows to benchmark ground-space LoRa links by
-making statistics over multiple sent/received frames. In the third and more
-complex scenario, the satellite stores packets received from GS/ED and deliver
+As depicted, the Thingsat payload may act in turns as either 
+(i) a Sat-IoT end-device (ED) that will send Lora frames to terrestrial LoRaWAN gateways or Thingsat ground stations (GS), or 
+(ii) an in-orbit LoRa sniffer, or 
+(iii) a store-carry-and-forward LoRa gateway.
+
+Patterns (i) and (ii) allow to benchmark simple ground-space LoRa links by
+making statistics over multiple sent/received frames. Pattern (iii) is a more
+complex scenario: the satellite stores packets received from GS/ED and deliver
 them once GS/ED destinations are inside the footprint of the satellite.
 
-\paragraph*{Indirect communication characteristics} Typical polar LEO satellites carry out an average of 2-4 passes over one ground
-station. The duration of the communication window is approximately of 5 to 10
-minutes. Communication with cubesats are generally done on amateur frequency
-bands (UHF/VHF) with very average low data rates ranging from 9.6kbps to
-100kbps. With only 2 ground stations to interact with the cubesat and a 10-kbps
+\paragraph*{Indirect communication characteristics}
+Communication with cubesats are typically done on amateur frequency
+bands (UHF/VHF) with typically low data rates ranging from 9.6kbps to
+100kbps. 
+Generally, over a given ground station, a polar LEO satellites carries out an average of 2-4 passes per day. The duration of the communication window is approximately of 5 to 10
+minutes. 
+
+In the particular case of Thingsat, we have only 2 ground stations to interact with the cubesat and a 10-kbps
 link, the data that can be exchanged during a day is roughly 1500KB (= 2 GS x 2
-passes/day x 5-min pass x 10kbps). This amount should be divided among OBC
-(telecommand/telemetry/update) and hosted payload communications. To give an
-order of idea, the Thingsat payload benefits from 300KB per day. \todoOA{See
-with SR for details}
+passes/day x 5-min pass x 10kbps). This amount should be shared between OBC
+(for telecommand/telemetry/update) and hosted payload communications. To give an
+idea, the total communication budget available for Thingsat via UHF/VHF is thus 300KB per day. \todoOA{See with SR for details}
+
+
+% \paragraph*{link-budget Mission}: communication between OBC and Payload, payload
+% active time for communication with ground segments.
+\iffalse
+Regarding the communication with the OBC, an API is provided to the hosted
+payload to read/write data with the data handling module of the cubesat as well
+as interacting with its subsystems. Indeed, to carry out a provisioned mission,
+the payload needs information from the OBC : awaiting uploaded
+instructions/files, GPS, time, ADCS, time before shutdown, ...
+\fi
+
+Last but not least, the Thingsat payload is not powered on at all times.
+Typically on such a cubesat, the power available is only
+enough for one active payload at a time. 
+%The mission of the STORK constellation is earth observation. So each STORK cubesat is equipped with an imager~\cite{wiki:SatRevolution} which has its own missions.
+The OBC is in charge of turning on the relevant payload according to a schedule
+uploaded from the ground station. 
+
+To give an idea, when active and using the 863-870 MHz band, the
+Thingsat payload consumes at 3.3V : 
+(i) 90 mA in standby, 
+(ii) 110 mA during a frame reception (RX) and 
+(iii) 300 mA during a frame transmission (TX) at 27 dBm.
+
+\subsection{Data and Software Updates Requirements}
+
+% \paragraph*{Why?}: timeline for deployment, CoVID context, etc. making it impossible
+% to deliver a fully functional device in time. Need to update the firmware remotely
+% and in orbit.
 
 The data exchanged by the Payload Maintainer with the Thingsat payload comprises 
 \begin{itemize}
-    \item the delivery of mission files runnng above the same firmware and the
+    \item the delivery of mission files running above the same firmware and the
     recovery of experiment results
     \item firmware updates
     \item diagnostic files to help the debug of failed missions/updates
@@ -117,46 +153,19 @@ The data exchanged by the Payload Maintainer with the Thingsat payload comprises
 
 \todoOA{be more specific on those files (discuss with Didier + give typical size of files}
 
-% \paragraph*{link-budget Mission}: communication between OBC and Payload, payload
-% active time for communication with ground segments.
-
-Regarding the communication with the OBC, an API is provided to the hosted
-payload to read/write data with the data handling module of the cubesat as well
-as interacting with its subsystems. Indeed, to carry out a provisioned mission,
-the payload needs information from the OBC : awaiting uploaded
-instructions/files, GPS, time, ADCS, time before shutdown, ...
-
-Furthermore the Thingsat payload is not active all the time as the power is only
-enough for one payload at the same time. The mission of the STORK constellation
-is earth observation. So each STORK cubesat is equipped with an
-imager~\cite{wiki:SatRevolution} which has its own missions. Therefore the OBC
-is in charge of turning on the relevant payload according to the schedule
-uploaded from the ground. Typically, during a mission on 863-870 MHz band, the
-Thingsat payload consumes at 3.3V : i) 90 mA in standby, ii) 110 mA during a frame
-reception (RX) and iii) 300 mA during a frame transmission (TX) at 27 dBm.
-
-\subsection{Software Updates Requirements}
-
-% \paragraph*{Why?}: timeline for deployment, CoVID context, etc. making it impossible
-% to deliver a fully functional device in time. Need to update the firmware remotely
-% and in orbit.
-
-The ability to reprogram the cubesat in orbit is essential for academic projects
-like Thingsat. First the design, development and deployment life-cycles of
-cubesat projects are quite short and the financial budget in academic projects
-is limited. Secondly the academic development team (students, professors,
-engineers) are at best experts in their respective domain but not necessarily
-familiar with space systems. Those constraints makes it impossible to
-deliver a fully functional device in time. The COVID context aggravated the
-situation with forced remote working, electronic component shortages and delayed
-shippings. 
+% The ability to reprogram the cubesat in orbit is essential for academic projects like Thingsat. First the design, development and deployment life-cycles of cubesat projects are quite short and the financial budget in academic projects is limited. Secondly the academic development team (students, professors, engineers) are at best experts in their respective domain but not necessarily familiar with space systems. Those constraints makes it impossible to deliver a fully functional device in time. The COVID context aggravated the situation with forced remote working, electronic component shortages and delayed shippings. 
 
 % \paragraph*{What needs updates}: Missions ? 
 
-In-orbit updates allows to support the change of radio drivers, the evolution of
-missions scenarios or configurations file format, bug resolutions ...
-Fortunately the use of RIOT-OS greatly facilitates the process to update
-softwares \textcolor{red}{but still needed adaption to our context}.
+Concerning software update in particular, while in orbit, Thingsat must be able to
+\begin{itemize}
+    \item update/add functionalities such as radio drivers  etc.
+    \item update mission scenarios
+    \item update configuration files
+    \item update firmware to fix bugs
+\end{itemize} 
+%sIn-orbit software updates must allow for updating radio drivers, the evolution of missions scenarios or configurations file format, bug resolutions ...
+% Fortunately the use of RIOT-OS greatly facilitates the process to update softwares \textcolor{red}{but still needed adaption to our context}.
 
 % \paragraph*{Communication Chain}: how are new firmware, payloads delivered,
 % who has access, etc..
