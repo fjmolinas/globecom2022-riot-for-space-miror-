@@ -13,6 +13,7 @@ Thingsat is deployed as a payload hosted on a shared 3U CubeSat: \href{https://s
 \href{https://www.n2yo.com/database/?q=STORK-1\#results}{Two-Line Elements}).
 
 The Thingsat payload now in orbit is used for Ocean level monitoring.
+\todoEB{reformulate/check this bit.}
 However, its design can be adequate for a wider variety of use cases, in Earth science academic research (e.g. melting of glaciers, pirate fishing...) and in the industry for companies using geographically dispersed devices (e.g. monitoring of tank ships...). 
 
 \iffalse
@@ -48,31 +49,36 @@ overview of a typical cubesat ecosystem hosting a payload, whereby the interacti
     \label{fig:thingsat-archi}
 \end{figure}
 
+\subsection*{Low-power Space Segment} 
 % \paragraph*{Space Segment Description}
-The \textit{Space Segment}  comprises especially the OBC and payloads sharing resources of the cubesat, interconnected via a CAN bus.
-The OBC
-consists of a microcontroller with all its subsystems to operate the cubesat :
-the Attitude Determination and Control System, the communication subsystems
-(UHF/VHF/S-band for uplink/downlink + antennas), the power subsystem (Battery
-Management, Energy Harvesting with Solar Panels, Auxiliary Power Supply). The
-payload designed for the Thingsat project embeds both a
-\href{https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302}{Semtech
-SX1302 transceiver} for communications on the 863-870 MHz band and a
-\href{https://www.semtech.com/products/wireless-rf/24-ghz-transceivers/sx1280}{Semtech
-SX1280 transceiver} for communications on the 2400-2500 MHz band. Furthermore a dual-band patch antenna (868MHz, 2.4GHz) was designed. The firmware running on the STM32 microcontroller driving LoRa communications is based on \href{https://github.com/RIOT-OS/RIOT}{RIOT
-OS}.
+The Space Segment comprises of the on-board computer (OBC) and hosted payloads, interconnected via a CAN bus, which share resources on the cubesat.
+\begin{itemize}
+\item The OBC provided by the satellite operator consists of 
+a microcontroller with all its subsystems to operate the cubesat :
+the Attitude Determination and Control System (ADCS),
+the communication subsystems (UHF/VHF/S-band for uplink/downlink and antennas),
+the power subsystem (Battery Management, Energy Harvesting with Solar Panels, Auxiliary Power Supply). 
+
+\item We designed the Thingsat payload, using a low-power ARM Cortex-M microcontroller (STM32) and open source firmware based on RIOT~\cite{baccelli2018riot}. The Thingsat payload embeds both a
+\href{https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302}{Semtech SX1302 transceiver} for communications on the 863-870 MHz band and a
+\href{https://www.semtech.com/products/wireless-rf/24-ghz-transceivers/sx1280}{Semtech SX1280 transceiver} for communications on the 2400-2500 MHz band. Furthermore we designed a corresponding dual-band patch antenna (868MHz, 2.4GHz).
+To give an idea, when active and using the 863-870 MHz band, the
+Thingsat payload consumes at 3.3V : 
+(i) 90 mA in standby, 
+(ii) 110 mA during a frame reception (RX) and 
+(iii) 300 mA during a frame transmission (TX) at 27 dBm.
+\end{itemize}
 
 % \paragraph*{Ground Segment Description}
 % \paragraph*{Control Segment} % Francisco: not sure if its the right name
 
-For the \textit{Ground Segment}, the cubesat operator relies on 
-i) Ground
-Stations\footnote{not necessarily owned by the cubesat operator} to communicate
-with the OBC and 
-ii) a Command \& Control Center to operate the cubesat
-(telecommand/telemetry) and to provide a means for payload maintainers to
-interact with the hosted payload.
-
+\subsection*{Ground Segment}
+For the Ground Segment, elements which communicate with the Thingsat payload are of multiple nature. are of the cubesat operator relies on 
+\begin{itemize}
+\item The cubesat operator provides a number of Ground Stations\footnote{not necessarily owned by the cubesat operator} to communicate via UHF/VHF with the OBC, and indirectly with the payload. 
+A Command \& Control Center is also provided to operate the cubesat (telecommand/telemetry) which acts as borker for payload maintainers to interact with the hosted payload.
+\item additionally, we designed and deployed and maintain LoRa-based  \href{https://github.com/thingsat/tinygs_2g4station}{Thingsat ground stations}, which can communicate with the Thingsat payload directly via LoRa. These stations are based on a low-cost ESP32 microcontroller, and an SX1280 transciever for LoRa communication at 2.4GHz, also running an open source firmware based on RIOT.
+\end{itemize}
 % \paragraph*{OBC \& Payload Communication Bus}
 
 % \paragraph*{Payload Description}: tenant status, energy budget, on time etc.
@@ -84,33 +90,35 @@ interact with the hosted payload.
 % \paragraph*{link-budget Mission Control}: delivering and communicating mission
 % files, delivering software updates, latency, etc.
 
-The Thingsat payload communicates either directly via LoRa, or indirectly via the UHF link provided by the cubesat's OBC.
+The Thingsat payload communicates either directly via low-power WAN, or indirectly via the UHF/VHF link provided by the cubesat's OBC.
 
-\paragraph*{Direct communication patterns}
-LoRa communication patterns are illustrated in figure \ref{fig:thingsat-comm}.
-Thingsat can communicate directly with its LoRa interface, with LoRa network elements on the ground.
-
-As depicted, the Thingsat payload may act in turns as either 
-(i) a Sat-IoT end-device (ED) that will send Lora frames to terrestrial LoRaWAN gateways or Thingsat ground stations (GS), or 
+\paragraph*{Direct communication patterns via low-power WAN}
+Thingsat can communicate directly with LoRa. %, with LoRa network elements on the ground.
+In principle, although it is not used as such so far, this communication link could also be used to transport some software updates.
+Low-power WAN communication patterns are illustrated in \autoref{fig:thingsat-comm}.
+The Thingsat payload may act in turns as either 
+(i) a Sat-IoT end-device (ED) that will send LoRa frames to terrestrial LoRaWAN gateways or Thingsat ground stations (GS), or 
 (ii) an in-orbit LoRa sniffer, or 
 (iii) a store-carry-and-forward LoRa gateway.
 
 Patterns (i) and (ii) allow to benchmark simple ground-space LoRa links by
-making statistics over multiple sent/received frames. Pattern (iii) is a more
+making statistics over multiple sent/received frames. 
+attern (iii) is a more
 complex scenario: the satellite stores packets received from GS/ED and deliver
 them once GS/ED destinations are inside the footprint of the satellite.
 
-\paragraph*{Indirect communication characteristics}
+\paragraph*{Indirect communication characteristics via UHF/VHF}
 Communication with cubesats are typically done on amateur frequency
 bands (UHF/VHF) with typically low data rates ranging from 9.6kbps to
 100kbps. 
-Generally, over a given ground station, a polar LEO satellites carries out an average of 2-4 passes per day. The duration of the communication window is approximately of 5 to 10
-minutes. 
+Generally, over a given ground station, a polar LEO satellites passes 2 to 4 times per day. The duration of the communication window for each pass is approximately of 5 to 10 minutes. 
 
-In the particular case of Thingsat, we have only 2 ground stations to interact with the cubesat and a 10-kbps
-link, the data that can be exchanged during a day is roughly 1500KB (= 2 GS x 2
-passes/day x 5-min pass x 10kbps). This amount should be shared between OBC
-(for telecommand/telemetry/update) and hosted payload communications. To give an
+In the particular case of Thingsat, the cubesat operator provides only 2 ground stations (both located in Europe) to interact with the cubesat, which communicate via a 10-kbps UHF/VHF link.
+The throughput that can be exchanged during a day is thus roughly 1500KB (corresponding to 2 GS x 2
+passes/day x 5-min pass duration x 10kbps).
+ However, note that this throughput must be shared between communications to/from the OBC
+(for telecommand/telemetry/update) and to/from hosted payloads. 
+In practice, to give an
 idea, the total communication budget available for Thingsat via UHF/VHF is thus 300KB per day. \todoOA{See with SR for details}
 
 
@@ -124,51 +132,46 @@ the payload needs information from the OBC : awaiting uploaded
 instructions/files, GPS, time, ADCS, time before shutdown, ...
 \fi
 
+\paragraph*{Intermittent communication/power supply}
 Last but not least, the Thingsat payload is not powered on at all times.
 Typically on such a cubesat, the power available is only
 enough for one active payload at a time. 
 %The mission of the STORK constellation is earth observation. So each STORK cubesat is equipped with an imager~\cite{wiki:SatRevolution} which has its own missions.
-The OBC is in charge of turning on the relevant payload according to a schedule
-uploaded from the ground station. 
+The OBC is in charge of turning on the relevant payload according to a schedule uploaded from the ground station. 
+\todoEB{reformulate/check this bit: what average percentage of the time is the payload powered?}
+This intermittent power supply, combined with orbiting and radio range limitations impacts the intermittence of network connectivity to/from the Thingsat payload.
 
-To give an idea, when active and using the 863-870 MHz band, the
-Thingsat payload consumes at 3.3V : 
-(i) 90 mA in standby, 
-(ii) 110 mA during a frame reception (RX) and 
-(iii) 300 mA during a frame transmission (TX) at 27 dBm.
-
-\subsection{Data and Software Updates Requirements}
+\subsection{Hosted Payload Software Updates Requirements}
 
 % \paragraph*{Why?}: timeline for deployment, CoVID context, etc. making it impossible
 % to deliver a fully functional device in time. Need to update the firmware remotely
 % and in orbit.
 
-The data exchanged by the Payload Maintainer with the Thingsat payload comprises 
-\begin{itemize}
-    \item the delivery of mission files running above the same firmware and the
-    recovery of experiment results
-    \item firmware updates
-    \item diagnostic files to help the debug of failed missions/updates
-\end{itemize} 
-
-\todoOA{be more specific on those files (discuss with Didier + give typical size of files}
+The data exchanged by the Payload Maintainer with the Thingsat payload consists in 
+\begin{enumerate}
+    \item mission files (to update configuration scenarios/scripts),
+    \item recovery of experiment results,
+    \item firmware updates (fix bugs, add/improve functionality),
+    \item recovery of diagnostics (debug failed missions/updates).
+\end{enumerate} 
 
 % The ability to reprogram the cubesat in orbit is essential for academic projects like Thingsat. First the design, development and deployment life-cycles of cubesat projects are quite short and the financial budget in academic projects is limited. Secondly the academic development team (students, professors, engineers) are at best experts in their respective domain but not necessarily familiar with space systems. Those constraints makes it impossible to deliver a fully functional device in time. The COVID context aggravated the situation with forced remote working, electronic component shortages and delayed shippings. 
 
 % \paragraph*{What needs updates}: Missions ? 
 
-Concerning software update in particular, while in orbit, Thingsat must be able to
-\begin{itemize}
-    \item update/add functionalities such as radio drivers  etc.
-    \item update mission scenarios
-    \item update configuration files
-    \item update firmware to fix bugs
-\end{itemize} 
+Software update consists in above parts (1) and (3). To give an idea
+for (1) the size of mission files is in the order of 10kBytes and the frequency of updates is roughly once a month. 
+To give an idea 
+for (3) the size of firmware updates is in the order of 100kBytes and the frequency of updates is roughly XXX.
+
+\todoOA{Check numbers above. Be more specific on those files (discuss with Didier + give typical size of files, frequency of updates (and show sample config file?)}
+
 %sIn-orbit software updates must allow for updating radio drivers, the evolution of missions scenarios or configurations file format, bug resolutions ...
 % Fortunately the use of RIOT-OS greatly facilitates the process to update softwares \textcolor{red}{but still needed adaption to our context}.
 
 % \paragraph*{Communication Chain}: how are new firmware, payloads delivered,
 % who has access, etc..
+\iffalse
 At last, the update of softwares like the Firmware (FW) for instance goes
 through the following steps : i) the FW is uploaded to the cubesat by the
 payload maintainer (PO) through one of the cubesat operator (CO) ground
@@ -178,3 +181,4 @@ chunk to the payload and iv) the FW update is triggered by the payload. This
 process provided by the CO going through the untrusted parts identified in
 figure \ref{fig:thingsat-archi} led us to provide the secured process detailed in the
 next section.
+\fi
