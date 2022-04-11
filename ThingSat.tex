@@ -43,12 +43,6 @@ altitude of 525 km (See
 The figure \ref{fig:thingsat-archi} describes the Thingsat deployment components, which gives an
 overview of a typical cubesat ecosystem hosting a payload, whereby the interaction with this payload traverses unstrusted elements.
 
-\begin{figure}[ht]
-    \includegraphics[width=0.5\textwidth]{Figures/globecom-thingsat-mods.jpg}
-    \caption{ThingSat hosted payload: deployed components and architecture.}
-    \label{fig:thingsat-archi}
-\end{figure}
-
 \subsection*{Low-power Space Segment} 
 % \paragraph*{Space Segment Description}
 The Space Segment comprises of the on-board computer (OBC) and hosted payloads, interconnected via a CAN bus, which share resources on the cubesat.
@@ -77,7 +71,7 @@ For the Ground Segment, elements which communicate with the Thingsat payload are
 \begin{itemize}
 \item The cubesat operator provides a number of Ground Stations\footnote{not necessarily owned by the cubesat operator} to communicate via UHF/VHF with the OBC, and indirectly with the payload. 
 A Command \& Control Center is also provided to operate the cubesat (telecommand/telemetry) which acts as borker for payload maintainers to interact with the hosted payload.
-\item additionally, we designed and deployed and maintain LoRa-based  \href{https://github.com/thingsat/tinygs_2g4station}{Thingsat ground stations}, which can communicate with the Thingsat payload directly via LoRa. These stations are based on a low-cost ESP32 microcontroller, and an SX1280 transciever for LoRa communication at 2.4GHz, also running an open source firmware based on RIOT.
+\item Additionally, we designed and deployed and maintain LoRa-based  \href{https://github.com/thingsat/tinygs_2g4station}{Thingsat ground stations}, which can communicate with the Thingsat payload directly via LoRa. These stations are based on a low-cost ESP32 microcontroller, and an SX1280 transciever for LoRa communication at 2.4GHz, also running an open source firmware based on RIOT.
 \end{itemize}
 % \paragraph*{OBC \& Payload Communication Bus}
 
@@ -182,3 +176,9 @@ process provided by the CO going through the untrusted parts identified in
 figure \ref{fig:thingsat-archi} led us to provide the secured process detailed in the
 next section.
 \fi
+
+\begin{figure}[t]
+    \includegraphics[width=0.5\textwidth]{Figures/globecom-thingsat-mods.jpg}
+    \caption{ThingSat hosted payload: deployed components and architecture.}
+    \label{fig:thingsat-archi}
+\end{figure}
