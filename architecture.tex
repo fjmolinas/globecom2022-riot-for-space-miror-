@@ -1,9 +1,13 @@
 \section{Cubedate: Standard Security for Continuous Deployment of Low-power CubeSat Software}
 \label{sec:low-power-orbital-communication-arch}
 
+In this section we describe Cubedate, a structured approach to securing heterogeneous software udpates for Cubesat software in orbit.
 
-The minimal security guarantees that we aim for are authenticity and integrity of software udpates delivered over the network, during the lifetime of the satellite mission (5-10 years).
-Additional guarantees beyond authenticity/integrity are also possible with Cubedate, as described below at the end of this section.
+\subsection{Security Requirements}
+The minimal security guarantees that we aim for with Cubedate are authenticity and integrity of software udpates delivered over the network, during the lifetime of the satellite mission (5-10 years).
+As a matter of fact, a 10 years life span is a rather long time, during which cryptographic primitives used to secure software updates may have to evolve.
+Thus Cubedate must allow for crypto agility: evolving the crypto primitives used to secure update to the satellite while in operation. This need can be dictated either by cryptography's evolving state-of-the-art (implementation/algorithm vulnerabilities are discovered) or by the need to transfer the trust anchor to a new entity (the authorized maintainer has changed).
+Additional guarantees beyond authenticity/integrity should also possible with Cubedate, such as confidentality, software update replay attacks, or software update mismatch attacks.
 
 \subsection{Trust Anchor}
 Our model is based on a single trust anchor: the authorized maintainer for the cubesat hosted payload.
@@ -33,18 +37,19 @@ and upon successful verification, install/boot the new software (\textit{Phase 5
 \end{figure}
 
 \subsection{Supporting Network Transport Heterogeneity}
-This aspect concerns both \textit{Phase 3.1} and \textit{Phase 3.2} in \autoref{fig:phases}. 
+This aspect concerns \textit{Phase 3.1} and \textit{3.2} in \autoref{fig:phases}.  Security guarantees on software updates must remain valid "end-to-end".
 
-Security guarantees on software updates must remain valid "end-to-end".
 Depending on the use-case "end-to-end" spans differently, as depicted for example in \autoref{fig:e2e}. In the most complex case we tackle in this paper, end-to-end means all the way from the hosted payload software maintainer to the payload hosted in orbit on the CubeSat.
 
-First of all, software updates may be transported over multiple network links or varying nature: 
+Software updates may be transported over one or more network links of varying nature: 
 \begin{itemize}
 \item {\bf Developer to Groundstation}: via wired Internet, USB key upload...
 \item {\bf Groundstation to CubeSat}: via long-range radio links such as UHF, LoRa...
 \item {\bf Intra-CubeSat}: via bus communication such as CAN/CSP, SPI...
+\item {\bf Path \& Delay Tolerance}: the end-to-end network path can either be a single link (simplest case) or a series of links which never exist simultaneously (most complex case) which may require temporary in-network caching.
 \end{itemize}
 
+\iffalse
 Second, paths across the network may vary in complexity.
 In the simplest case the end-to-end network path covers consists in a single segment: from a ground station either to the OBC, or to the hosted payload directly via its own radio interface, if it has one (as described in \autoref{sec:thingsat-comm-characteristics}).
 In more complex cases involving hosted payloads, not only
@@ -53,6 +58,7 @@ but also: this path may never exist end-to-end at any point in time.
 This Delay-tolerant network characteristic is due to power-off periods imposed on CubeSat hosted payloads, 
 combined with fact that CubeSat are out-of-range for ground stations radios a large part of the time.
 Hence, while in transit across the network, software update data may have to be temporarily cached at some intermediate node along the path.
+\fi
 
 To cope with this wide variety of network paths and links (including ultra-constrained low-power elements), different approaches can be envisionned at the network layer, the transport layer and the application layer. Approaches span from proprietary solutions, to standards such as the low-power IPv6 protocol stack (6LoWPAN, UDP, CoAP \cite{morabito2020ietf}) or experimental stacks such as information-centric networking which can achieve benefits using in-network caching even with small caches on microcontrollers \cite{hahm2017low}. 
 
@@ -83,10 +89,6 @@ As such, using Cubedate, software updates for payload hosted on CubeSats mitigat
 \end{itemize}
 
 \subsection{Supporting Crypto Agility}
-As the 5-10 years life span of the Cubesat is a long time, during which cryptographic primitives used to secure software updates with Cubedate may have to evolve.
-
-This evolution can be dictated either by cryptography's evolving state-of-the-art (implementation/algorithm vulnerabilities are discovered) or by the need to transfer the trust anchor to a new entity (the authorized maintainer has changed).
-
 The first level of crypto agility enabled by Cubedate uses flexibility provided by the SUIT standard specification: while keeping the same metadata and worksflow, diverse crypto primitives backends can be used. For instance, to upgrade from pre- to post-quantum security, digital signature performed with ed25519 (elliptic curve crypto), can be swapped for hash-based signatures (LMS~\cite{banegas2022quantum-suit}).
 
 The second level of crypto agility enabled by Cubedate leverage a dedicated embedded runtime architecture as shown the Flash memory layout depicted in \autoref{fig:cubedate-runtime}. On the one hand, we place the software update manager (implementing SUIT-related operations) in the firmware image itself. On the other hand, we perform cryptographic operations in software only.
@@ -108,8 +110,8 @@ implement and use upgraded cryptographic primitives.
 \subsection{Guarantees beyond Authenticity/Integrity}
 
 Using Cubedate, guaranteeing confidentiality is also possible using (optional) encryption of software updates transmitted over the network.
-\todoEB{Mention optional use of SUIT payload encryption.}
-Confidentiality can mitigate cyberattacks based on the analysis of cubesat firmware/software binaries.
+This is performed using the encrypt/decrypt mechanism provided by the SUIT specifications~\cite{suit-firmware-encryption}, using a symmetric cryptographic key commissionned in the update manager by the authorized maintainer. 
+Confidentiality can mitigate additional cyberattacks leveraging analysis of cubesat firmware/software binaries.
 
 Going beyond authenticity, integrity and confidentiality guarantees for software updates delivered over the network, using Cubedate also mitigates other attacks including:
 \begin{itemize}
