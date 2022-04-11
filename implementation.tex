@@ -29,7 +29,18 @@ simplified case, a networked scenario with a URL will be described.
 \francisco{PLACE HOLDER FOR A DIAGRAM}
 \fi
 
+We implemented Cubedate by extending previous work~\cite{zandberg2019secure} on SUIT support in RIOT, combined with our open source firmware running on the Thingsat payload (also based on RIOT).
 
+\subsection{Intra-cubesat bus communication}
+
+We used \texttt{libCSP} (the library implementing the Cubesat Space Protocol CSP) to provide an easier, socket-like API on top of the raw CAN bus communication channel between the OBC and the payload. More generally, libCSP aims to support the most common serial communication interfaces found on \textit{Satellite} payloads, OBC and components (links such as I2C, RS-232, CAN and wrappers for TAP, ZMQ etc.) 
+
+
+
+
+\subsection{Intra-cubesat bus communication}
+
+\subsection{Intra-Cubesat bus communication}
 
 \subsection{Message Model, Request/Response Semantics}
 
