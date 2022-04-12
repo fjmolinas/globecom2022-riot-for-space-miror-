@@ -1,10 +1,58 @@
-\section{Cubedate Experimental Evaluation}
+\section{Cubedate Evaluation and Discussion}
 \label{sec:evaluation}
 
-\subsection{Memory Footprint} \francisco{of application and stack, numbers?}
-\subsection{Energy Footprint} \francisco{Didier Olivier can you add some numbers}
-\subsection{Update Time}
-\subsection{SUIT}
-- manifest size vs data resource for different use cases
+\subsection{Evaluatio}
 
-\section{Lessons Learned}
+Scenarios:
+
+\begin{itemize}
+    \item tests\/riotboot\_flashwrite
+    \item tests\/pkg\_libcsp
+    \item examples\/suit\_csp and femto-container in ram
+\end{itemize}
+
+\francisco{Standlone not working}
+
+\subsubsection{Memory Footprint}
+
+TODO some things where hard to fit in categories, adjust values
+
+Categories Details:
+Describe Setup: no acceleration, nucleo-f401re,
+
+\includestandalone[]{Figures/texfigs/flash_footprint_table}
+\includestandalone[]{Figures/texfigs/ram_footprint_table}
+
+\subsubsection{Energy Footprint} \francisco{Didier Olivier can you add some numbers}
+
+\subsubsection{SUIT Update}
+
+SUIT overhead is negligible when updating firmware, but with small files the overhead
+is.
+
+Options to improve
+
+\begin{itemize}
+    \item combine when possible both
+    \item use COSE\_MAC to reduce size, and verification time
+    \item strip down manifest
+\end{itemize}
+
+\includestandalone[]{Figures/texfigs/update_time_ram_pie}
+
+\includestandalone[]{}[]{Figures/texfigs/manifest_overhead_pie}
+
+\includestandalone[width=1\columnwidth]{Figures/texfigs/update_time_ram_table}
+
+The price of SUIT in ThingSat:
+
+\begin{itemize}
+    \item Updates do not happen often compared to mission updates
+    \item Low Bandwith
+\end{itemize}
+
+\subsection{Discussion: Going Forward}
+- Differential Updates: mention vcdiff RIOT
+- Update over LoRa: use of SCHC
+- SUIT Manifest embed payload for small updates, or strip down manifest
+- Use of COSE\_Mac0\_Tagged instead of COSE\_Sign1\_Tagged

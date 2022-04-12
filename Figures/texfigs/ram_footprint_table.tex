@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{tikz}
+
+\begin{document}
+\begin{table}[]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccc}
+\hline
+          & bootlaoder & baseline (CSP) & OTA (CSP) & SUIT (CSP) \\ \hline
+can       & 0          & 8156           & 8156      & 8156       \\
+cbor+cose & 0          & 0              & 0         & 512        \\
+coap      & 0          & 0              & 1024      & 1024       \\
+core      & 800        & 2494           & 2552      & 2274       \\
+crypto    & 0          & 0              & 64        & 64         \\
+network   & 0          & 8009           & 8017      & 8541       \\
+suit      & 0          & 0              & 0         & 882        \\
+ota       & 0          & 0              & 1532      & 2400       \\ \hline
+app-total & 800        & 19437          & 20440     & 26268      \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\end{document}

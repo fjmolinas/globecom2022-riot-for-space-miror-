@@ -1,0 +1,29 @@
+\begin{filecontents*}{ram_update.csv}
+0.51,1.7,1.02,0.10
+\end{filecontents*}
+
+\documentclass{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{csvsimple}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{pgf-pie}
+
+\begin{document}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+\csvreader[no head]%
+{ram_update.csv}
+{1=\colVali,2=\colValii,3=\colValiii}
+{%
+  \pie[
+  text = legend, polar, sum=auto, explode=0.1]
+  {\colVali/manifest-download, \colValii/signature-verification, \colValiii/payload-download,
+  \colValiv/other}
+}
+\end{tikzpicture}
+\end{figure}
+
+\end{document}
