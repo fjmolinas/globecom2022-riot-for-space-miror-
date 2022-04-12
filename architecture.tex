@@ -80,6 +80,7 @@ Cubedate leverages the SUIT manifest~\cite{suit-manifest} which specifies a meta
 
 The Cubedate software update binary itself can be either encapsulated in the SUIT manifest, or transferred separately based on the URI provided in the manifest.
 For instance, the metadata includes a sequence number (preventing unwanted rollbacks), the expected device type (preventing software mismatch), the SHA256 digest of the software update binary, and the ed25519 digital signature of the manifest (the metadata).
+\todoEB{Add more specific parameters we use with/for SUIT for Cubedate?}
 As such, using Cubedate, software updates for payload hosted on CubeSats mitigate attacks including:
 
 \begin{itemize}

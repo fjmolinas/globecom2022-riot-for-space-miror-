@@ -29,18 +29,42 @@ simplified case, a networked scenario with a URL will be described.
 \francisco{PLACE HOLDER FOR A DIAGRAM}
 \fi
 
-We implemented Cubedate by extending previous work~\cite{zandberg2019secure} on SUIT support in RIOT, combined with our open source firmware running on the Thingsat payload (also based on RIOT).
-
-\subsection{Intra-cubesat bus communication}
-
-We used \texttt{libCSP} (the library implementing the Cubesat Space Protocol CSP) to provide an easier, socket-like API on top of the raw CAN bus communication channel between the OBC and the payload. More generally, libCSP aims to support the most common serial communication interfaces found on \textit{Satellite} payloads, OBC and components (links such as I2C, RS-232, CAN and wrappers for TAP, ZMQ etc.) 
+We implemented Cubedate by extending the open source ecosystem around RIOT, which we combined with our initial firmware running on the Thingsat payload, also open sourced, which we published and maintain at XXX. \todoEB{Link to repo here}.
 
 
+\subsection{Bus implementation}
+
+To provide a simplistic socket-like API on top of the raw CAN bus connecting hosted payloads and OBC on the cubesat, we used \href{https://github.com/libcsp/libcsp}{libCSP}, a rough library implementing the Cubesat Space Protocol (CSP version 1). Roughly, CSP provides an "equivalent" of the IP/UDP stack and static routing. This approach mimics a number of other cubesat designs. In practice, we integrated libCSP in RIOT, to simplify the programming of communication between the OBC and the payload.%More generally, libCSP aims to support the most common serial communication interfaces found on \textit{Satellite} payloads, OBC and components (links such as I2C, RS-232, CAN and wrappers for TAP, ZMQ etc.) 
+\todoEB{Here, can we cite other cubesat which run libCSP?}.
+
+\subsection{SUIT implementation}
+
+To fully support the wide variety of software updates case required by Cubedate, we extended RIOT's implementation of SUIT, which initially supported only firmware updates, internal storage, and WPAN network delivery. We generalized the SUIT implemented mechanisms and state machine to support :
+% with the extra mechanisms for updating more general software updates, including mission scenario files and more generally arbitrary configuration files. The state machine
+
+\begin{itemize}
+    \item \textbf{heterogeneous delivery mechanisms for software update data}: configurable transport mechanism to deliver SUIT:
+    e.g. \{message model, network stack, network interface\}
+    bundle, or FileSystem \textit{read/write} functions.
+%    \item \textit{manifest} and data resource to the SUIT state machine.
+    \item \textbf{heterogeneous storage destination for software updates installation}: Internal or external storage. Volatile 
+     (e.g. RAM for mission files, or for tiny runtime exection containers such as FemtoContainers~\cite{zandberg2021femto})
+    or non-volatile (e.g. FileSystem or internal Flash memory).
+     \item \textbf{heterogeneous software update resource URI}: either a local file (e.g.: mounted USB device) or a remotely accessible file (eg CoAP or HTTP endpoint);
+\end{itemize}
+
+\subsection{Update GET implementations}
+
+To demonstrate generality, we implemented several alternatives for the \texttt{Client/Server} interaction initiated by the hosted payload to pull (GET) software update data over the network (in the shape of SUIT manifests), from either the OBC, or a (lpWAN) groundstation.
+
+The first option we implemented uses UP, a dedicated proprietary protocol that was supported by default by the cubesat operator for \texttt{Request/Response} interaction with the OBC. This option is currently deployed and running on ThingSat in orbit. \francisco{Need some more info on UP, a link?}.
+
+The second option we designed and implemented uses CoAP~\cite{rfc7252} instead of UP, the open standard low-power Ipv6 protocol implementing REST operations.
+The advantage of using CoAP is that it is general purpose for resource-constrained networked nodes. In particular, it is not only applicable over the CAN/CSP link, but also usable over VHF links~\cite{palma2018vhf-coap} or LoRa links~\cite{sanchez2018lora-coap}, which paves the way for some Cubedate software updates over the direct link from the Thingsat payload to the Thingsat LoRa groundstation.
 
 
-\subsection{Intra-cubesat bus communication}
 
-\subsection{Intra-Cubesat bus communication}
+\iffalse
 
 \subsection{Message Model, Request/Response Semantics}
 
@@ -104,6 +128,7 @@ It provides with blah blah..
 \subsubsection{Integrating LibCSP and RIOT}
 
 Details on the integrations work, learned lessons and sufferings.
+\fi
 
 \subsection{Continuous Integration \- Collaborative Platform}
 
