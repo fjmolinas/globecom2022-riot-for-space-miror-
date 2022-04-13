@@ -153,12 +153,14 @@ By default, and on average Thingsat is thus powered only 1/8th (12.5\%) of the t
 % and in orbit.
 
 The data exchanged by the Payload Maintainer with the Thingsat payload consists in 
+The downlink is used by Thingsat to send both mission results (radio metadata, frame stats, collected LoRa frames) and diagnosis data (debug info on failed missions/updates).
+The uplink is used for software updates of two categories:
 \begin{enumerate}
-    \item Firmware updates (Uplink): fix bugs, add/improve functionality, $\sim 200kB$ per FW, 1 FW/month;
-    \item Mission descriptions (Uplink): to update configuration scenarios/scripts, $\sim 700B$ per mission scenario, 1 scenario/day;
-    \item Mission results (Downlink): radio metadata, frame stats, collected LoRa frames; %$\sim 700B$ per mission;
-    \item Diagnosis (Downlink): debug failed missions/updates/ % $\sim200B$ per mission.
+    \item Firmware updates: to fix bugs, add/improve functionality (typically $\sim 200kB$ per FW, 1 FW/month);
+    \item Mission updates: to configure scenarios (typically $\sim 700B$ per mission scenario, 1 scenario/day);
 \end{enumerate} 
+
+
 
 % 1 mission = envoi de frames sur une zone (fichier jetable pour l'instant, )
 % combien de groupes de missions envoyés par semaine ? --> quelle taille va être sécurisée par SUIT ?
