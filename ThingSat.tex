@@ -13,8 +13,8 @@ Thingsat is deployed as a payload hosted on a shared 3U CubeSat: \href{https://s
 \href{https://www.n2yo.com/database/?q=STORK-1\#results}{Two-Line Elements}).
 
 The Thingsat payload now in orbit is used for Ocean level monitoring.
-\todoEB{reformulate/check this bit.}
-However, its design can be adequate for a wider variety of use cases, in Earth science academic research (e.g. melting of glaciers, pirate fishing...) and in the industry for companies using geographically dispersed devices (e.g. monitoring of tank ships...). 
+%\todoEB{reformulate/check this bit.}
+However, its design can be adequate for a wider variety of use cases, in Earth science academic research (e.g. tacking the  melting of glaciers, pirate fishing...) and in the industry for companies using geographically dispersed devices (e.g. monitoring of tank ships...). 
 
 \iffalse
 Thus we designed a space electronic board with two LoRa transceivers and a patch
@@ -38,7 +38,7 @@ altitude of 525 km (See
 
 \subsection{Distributed System Architecture}
 
-The figure \ref{fig:thingsat-archi} describes the Thingsat deployment components, which gives an
+\autoref{fig:thingsat-archi} describes the Thingsat deployment components, which gives an
 overview of a typical cubesat ecosystem hosting a payload, whereby the interaction with this payload traverses untrusted elements.
 
 \subsection*{Low-power Space Segment} 
@@ -64,7 +64,7 @@ Thingsat payload consumes at 3.3V :
 % \paragraph*{Ground Segment Description}
 % \paragraph*{Control Segment} % Francisco: not sure if its the right name
 
-\subsection*{Ground Segment}
+\subsection*{Ground Segments}
 For the Ground Segment, elements which communicate with the Thingsat payload are of multiple nature. are of the cubesat operator relies on 
 \begin{itemize}
 \item The cubesat operator provides a number of Ground Stations\footnote{not necessarily owned by the cubesat operator} to communicate via UHF/VHF with the OBC, and indirectly with the payload. 
@@ -111,7 +111,7 @@ passes/day x 5-min pass duration x 10kbps).
  However, note that this throughput must be shared between communications to/from the OBC
 (for telecommand/telemetry/update) and to/from hosted payloads. 
 In practice, to give an
-idea, the total communication budget available for Thingsat via UHF/VHF is thus 300KB per day. \todoOA{See with SR for details}
+idea, the total communication budget available for Thingsat via UHF/VHF is thus 300KB per day. % \todoOA{See with SR for details}
 
 
 % \paragraph*{link-budget Mission}: communication between OBC and Payload, payload
@@ -125,15 +125,20 @@ instructions/files, GPS, time, ADCS, time before shutdown, ...
 \fi
 
 \paragraph*{Intermittent communication/power supply}
-Last but not least, the Thingsat payload is not powered ON all the time.
-On such a cubesat, the power available is only enough for one active payload at a time. 
+Last but not least, the Thingsat payload is not powered on at all the time.
+O%n such a cubesat, the power available is only enough for one active payload at a time. 
 %The mission of the STORK constellation is earth observation. So each STORK cubesat is equipped with an imager~\cite{wiki:SatRevolution} which has its own missions.
-The OBC is in charge of turning on the relevant payload according to a schedule uploaded from the ground station. 
-Typically, for a 3U, 1U is dedicated to the OBC and the remaining 2U, available for host payloads, is divided in 8 slots.
-The Thingsat payload occupies one slot out of 8 and would be turned ON 12.5\% of the time. 
-It is obviously an average since the schedule to turn on payloads relies on multiple factors (mission specificities, regulations, battery level). 
+%The OBC is in charge of turning on the relevant payload according to a schedule uploaded from the ground station. 
+Typically, at point any time, only a single hosted payload is powered on.
+for a 3U, 1U is dedicated to the OBC and the remaining 2U, available for host payloads,
+For example, on the cubesat hosting Thingsat, 8 payloads slots of 0.25U each are available.
+By default, and on average Thingsat is thus powered only 1/8th (12.5\%) of the time
+(modulo other factors such as mission specificities, regulations, battery level etc.).
+%divided in 8 slots.% is divided in 8 slots.
+%The Thingsat payload occupies one slot out of 8 and would be turned ON 12.5\% of the time. 
+%This is obviously an average since the schedule to turn on payloads relies on multiple factors (mission specificities, regulations, battery level). 
 % \todoEB{reformulate/check this bit: what average percentage of the time is the payload powered?}
-This intermittent power supply, combined with orbiting and radio range limitations impacts the intermittence of network connectivity to/from the Thingsat payload.
+%This intermittent power supply, combined with orbiting and radio range limitations impacts the intermittence of network connectivity to/from the Thingsat payload.
 
 % solar panel rechargé la moitié du temps
 % 1U pour l'OBC + 2U pour le reste avec 8 slots dont Thingsat a 12.5% du temps de l'énergie
@@ -149,10 +154,10 @@ This intermittent power supply, combined with orbiting and radio range limitatio
 
 The data exchanged by the Payload Maintainer with the Thingsat payload consists in 
 \begin{enumerate}
-    \item Firmware updates (Uplink): fix bugs, add/improve functionality, $\sim 200kB$ per FW, 1 FW/month,
-    \item Mission description (Uplink): to update configuration scenarios/scripts, $\sim 700B$ per mission, 10 missions/day,
-    \item Mission results (Downlink): radio metadata, frame stats, collected LoRa frames, $\sim 700B$ per mission, 
-    \item Diagnosis (Downlink): debug failed missions/updates, $\sim200B$ per mission.
+    \item Firmware updates (Uplink): fix bugs, add/improve functionality, $\sim 200kB$ per FW, 1 FW/month;
+    \item Mission descriptions (Uplink): to update configuration scenarios/scripts, $\sim 700B$ per mission scenario, 1 scenario/day;
+    \item Mission results (Downlink): radio metadata, frame stats, collected LoRa frames; %$\sim 700B$ per mission;
+    \item Diagnosis (Downlink): debug failed missions/updates/ % $\sim200B$ per mission.
 \end{enumerate} 
 
 % 1 mission = envoi de frames sur une zone (fichier jetable pour l'instant, )

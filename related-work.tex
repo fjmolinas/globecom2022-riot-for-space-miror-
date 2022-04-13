@@ -1,7 +1,6 @@
 \section{Related Work}
 \label{sec:background-related-work}
 
-
 {\bf Open source hardware and software are increasingly used on low-cost CubeSats}, including on microcontroller parts.
 For instance pyCubed~\cite{Holliday2019PyCubed} proposes open source CubeSat hardware based on an Arm Cortex-M4 (atsamd51) microcontroller and corresponding open source software based on Python (Adafruit CircuitPython).
 OreSat~\cite{spivey2021oresat} designs a CubeSat also based on microcontrollers, and provides corresponding open source software.
@@ -29,21 +28,23 @@ This hosted CubeSat use-case is depicted in \autoref{fig:e2e}.
 \subsection*{Paper contributions}
 The main contributions of this paper are the following
 \begin{itemize}
-    \item We provide a case-study: ThingSat, a low-power, low-cost payload hosted on a CubeSat, the constraints and requirements of which we analyse concerning in-orbit software updates;
+    \item We provide a case-study: ThingSat, a low-power, low-cost payload hosted on a cubesat, currently in-orbit. We analyse its software update requirements and constraints;
 %    \begin{itemize}
 %        \item shows heterogeneity of update targets (firmware, software, configs)
 %        \item using diverse network transports and through different intermediaries
 %    \end{itemize}
-    \item We define Cubedate, a generic architecture for secure and standards-based end-to-end software updates for low-power payloads hosted on low-cost CubeSat;
-    \item We provide and evaluate an open source implementation of Cubedate, applied to ThingSat;
-    \item ??? We provide a basis for a collaborative continuous integration platform using Cubedate, allowing to test and verify the continuous deployment chain of software updated and running on CubeSat payloads.???
+    \item We define Cubedate, a generic architecture enabling standards-based, secure software updates for payloads hosted on a low-power cubesat;
+    \item We provide and evaluate an open source implementation of Cubedate.
+%    \item ??? We provide a basis for a collaborative continuous integration platform using Cubedate, allowing to test and verify the continuous deployment chain of software updated and running on CubeSat payloads.???
 \end{itemize}
+
+%%%%%%%%%%%%%%%%
+
+\iffalse
 
 \textit{Paper Organization --}
 TBD.
 
-
-\iffalse
 
 \subsection{CubeSat Software Updates}
 \label{sec:fu-cubesat}
@@ -92,10 +93,6 @@ Arduino based.\\
 
 % \subsection{Cube Sat Protocol (CSP)}
 % \label{sec:csp}
-
-\fi
-
-\iffalse
 
 \subsection{Open Source} \cite{shalashov2021OpenSourceCubeSatReview}, \cite{Holliday2019PyCubed}
 \paragraph*{Why Open-Source Satellite Initiatives}
