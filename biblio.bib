@@ -289,3 +289,34 @@
   journal = {arXiv preprint arXiv:2106.12553},
   year    = {2021}
 }
+
+@techreport{wachter20206locan01,
+  number      = {draft-wachter-6lo-can-01},
+  type        = {Internet-Draft},
+  institution = {Internet Engineering Task Force},
+  publisher   = {Internet Engineering Task Force},
+  note        = {Work in Progress},
+  url         = {https://datatracker.ietf.org/doc/html/draft-wachter-6lo-can-01},
+  author      = {Alexander Wachter},
+  title       = {{IPv6 over Controller Area Network}},
+  pagetotal   = 18,
+  year        = 2020,
+  month       = feb,
+  day         = 27,
+  abstract    = {Controller Area Network (CAN) is a fieldbus initially designed for automotive applications. It is a multi-master bus with 11-bit or 29-bit frame identifiers. The CAN standard (ISO 11898 series) defines the physical and data-link layer. This document describes how to transfer IPv6 packets over CAN using ISO-TP, a dedicated addressing scheme, and IP header compression (IPHC).}
+}
+
+@misc{rfc8724,
+  series       = {Request for Comments},
+  number       = 8724,
+  howpublished = {RFC 8724},
+  publisher    = {RFC Editor},
+  doi          = {10.17487/RFC8724},
+  url          = {https://www.rfc-editor.org/info/rfc8724},
+  author       = {Ana Minaburo and Laurent Toutain and Carles Gomez and Dominique Barthel and Juan-Carlos Zúñiga},
+  title        = {{SCHC: Generic Framework for Static Context Header Compression and Fragmentation}},
+  pagetotal    = 71,
+  year         = 2020,
+  month        = apr,
+  abstract     = {This document defines the Static Context Header Compression and fragmentation (SCHC) framework, which provides both a header compression mechanism and an optional fragmentation mechanism. SCHC has been designed with Low-Power Wide Area Networks (LPWANs) in mind. SCHC compression is based on a common static context stored both in the LPWAN device and in the network infrastructure side. This document defines a generic header compression mechanism and its application to compress IPv6/UDP headers. This document also specifies an optional fragmentation and reassembly mechanism. It can be used to support the IPv6 MTU requirement over the LPWAN technologies. Fragmentation is needed for IPv6 datagrams that, after SCHC compression or when such compression was not possible, still exceed the Layer 2 maximum payload size. The SCHC header compression and fragmentation mechanisms are independent of the specific LPWAN technology over which they are used. This document defines generic functionalities and offers flexibility with regard to parameter settings and mechanism choices. This document standardizes the exchange over the LPWAN between two SCHC entities. Settings and choices specific to a technology or a product are expected to be grouped into profiles, which are specified in other documents. Data models for the context and profiles are out of scope.}
+}
