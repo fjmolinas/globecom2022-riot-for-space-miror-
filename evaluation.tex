@@ -8,103 +8,83 @@ protocols.
 
 \subsection{Evaluation}
 
-The hardware setup for the numerical analysis consisted of:
-
-\begin{itemize}
-    \item STM32F401RE, featuring a CORTEX\-M4 core with 512Kbytes of Flash memory
-          and 96Kbytes of RAM, running at 84Mhz.
-    \item MCP2515 Stand-Alone CAN Controller, running at 500Kbps.
-    \item 16Gbytes SD-CARD as an external storage for the CubeSat OBC simulator
-\end{itemize}
-
 In the following, code measurements where generated compiling with ARM GCC 10.2.1,
-optimized for code size.
+optimized for code size. The crypto library used is D.Beer C25519 library, this
+is the library with the lowest footprint for ED25519 as shown in~\cite{zandberg2019secure}.
 
 \subsubsection{Memory Footprint}
 
-To evaluate the RAM \& ROM footprint cost of the CubeDate architecture we compared
-those footprint across 4 scenarios:
+To evaluate the RAM and flash footprint of the CubeDate architecture we evaluate them
+in two configurations, furthermore we categorize the different components to
+distinguish the SUIT endured overhead
 
 \begin{itemize}
-    \item \textbf{bootloader}: RIOT default bootloader application incremented to
-    verify a sha256 digest of each firmware image.\footnote{Reason for the differences
-    with numbers with the bootloader application in\cite{zandberg2019secure}}
-    \item \textbf{baseline}: a minimal CSP application, CSP network stack and CAN-BUS
+    \item \textbf{ThingSat}: a minimal CSP application, CSP network stack and CAN-BUS
     interface.
-    \item \textbf{OTA}: a minimal OTA application, CoAP endpoint, CSP network stack
-    and CAN-BUS interface.
     \item \textbf{CubeDate}: CubeDate setup: CoAP endpoint, SUIT update of FW(ROM)
-    and VirtualMachine\cite{zandberg2021femto}(RAM), CSP Network stack and CAN-BUS interface.
-\end{itemize}
-
-Furthermore we categorize the different components in the firmware as follows:
-
-\francisco{need to improove on categorization some stuff was not fitted in}
-\begin{itemize}
+    CSP Network stack and CAN-BUS interface.
     \item can: CAN (Controller Area Network) stack as well as low level interface
-    \item cbor\&cose: libraries used for COSE and CBOR parsing
     \item crypto: all cryptographic algorithms such as digest algorithm, digital
     signature, ECC and bignum, as well as pseudo-random numbers generator
-    \item core: everything else??
     \item coap: CoAP protocol library (CoAP endpoint stack excluded)
-    \item network: CSP (Cube Sat Protocol) network stack
-    \item ota: components enabling retrieval and installation of delivered data
+    \item csp: CSP (Cube Sat Protocol) network stack
+    \item suit: components enabling retrieval and installation of suit data
     (fw or other), this include e.g. the CoAP endpoint stack.
-    \item suit: code related to parsing a SUIT manifest
+    \item ThingSat: application specific code related to the CubeSat Payload
 \end{itemize}
 
 The flash memory footprints (total and broken down per component) are shown in
-\ref*{tab:footprint-rom}. The crypto library used is D.Beer C25519 library, this
-is the library with the lowest footprint for ED25519 as shown in \cite{zandberg2019secure}.
+\ref*{tab:footprint}. It can be seen that the overhead of CubeDate for ThingSat
+is of 8Kbytes/20Kbytes. \francisco{I need input here on how to do the measurements}
 
 \begin{table}[ht]
-    \caption{ROM Footprint STM32F401RE}
-    \label{tab:footprint-rom}
+    \caption{CubeDat Memory Footprint}
+    \label{tab:footprint}
     \centering
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/flash_footprint_table}
-\end{table}
-\begin{table}[ht]
-    \caption{RAM Footprint STM32F401RE}
-    \label{tab:footprin-ram}
-    \centering
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/ram_footprint_table}
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/memory_footprint_table}
 \end{table}
 
+\subsubsection{Standarized Network Stack Usage}
+
+CSP was designed to give CubeSat sub-systems developers the same features as an
+TCP/IP stack without the overhead of the IP header, allowing to run on constrained
+systems with under 4Kbytes of RAM. Unless running on this kind of very constrained
+devices using CSP can be contested. A minimal CoAP server example running on
+LibCSP or RIOTs default IPv6/UDP network stack (GNRC) yields similar numbers of RAM/Flash
+usage: 10KB\/30KB (CSP) vs 8KB/31KB (GNRC). Optimal compression of an Ipv6 header
+can shrink the size from 48bytes to 4Bytes, comparable to CSP2.0 3Bytes header.
+Furthermore  6loCAN\cite{wachter20206locan01}, SCHC\cite{rfc8724}, allow to
+optimize IPv6 for CAN-BUS or LoRa network. What is gained in simplicity is eventually
+lost by using a not standard network stack, i.e. using standard application
+layer protocols.
+
 \begin{table}[ht]
-    \caption{SUIT Manifest Binary Overhead}
+    \caption{SUIT Manifest Overhead}
     \label{tab:manifest-overhead}
     \centering
     \includestandalone[width=1\columnwidth]{Figures/texfigs/manifest_overhead_table}
+      \small Transfer Overhead is measured against the size on an average mission file
+      700Bytes and application binary size \(200 Kbytes * 2\) (two slot files).
 \end{table}
-
-\subsubsection{Energy Footprint}
-
-\francisco{Didier Olivier can you add some numbers}
-
-\subsubsection{Network Stack}
-
-Standarized network stack usage: \cite{wachter20206locan01}, numbers on gnrcminimal,
-if Using LoRaWAN SCHC\cite{rfc8724}, is it worth using a custom network stack?
-
-\subsubsection{SUIT Data}
-
-Size of payloads, containerization, differential updates(vcdfiff), leverage mission files.
-
-\subsubsection{SUIT Manifest}
-
-Taking a look at \ref*{tab:manifest-overhead} suggest stripping down some things.
 
 \subsubsection{SUIT Authentication}
 
-SUIT relies on COSE for authentication, but although digital signatures is the
-most used method, the standard also for using tagged Message Authentication Code
-(MAC).
+SUIT relies on COSE for authentication, with digital signatures being the most
+used method. A viable alternative for CubeSat maybe to instead use a tagged Message
+Authentication Code (MAC). This will reduce the size of \textit{Authentication} block
+\ref*{tab:manifest-overhead} from 64Bytes to 16Bytes or 8Bytes if using HAMC-256/128
+or HMAC-256/64. This would also save Flash since as seen in~\cite{zandberg2019secure}
+the ed25519 library accounts for roughly 75\% of the crypto flash budget, while HMAC-256
+re-uses sha256 code, and adds an overhead of ~1Kbyte. The requirement for a shared secret
+might be an acceptable compromise since attackers gaining physical access to the
+in-orbit device is unlikely.
 
-The FLASH cost of crypto shown in \ref{tab:footprint-rom} comes mostly from the
-digital signature library 75\%\cite{zandberg2019secure}. If instead an HMAC-256/64
-MAC authentication algorithm was used the ROM footprint can be greatly reduced.
-This would also allow to reduce he size of the Authentication block\ref*{tab:manifest-overhead}
-Granted, a shared secret would require being distributed before hand, but for a
-CubeSat use case where an attacker would have no-likely physical access to the
-device (once in-orbit), the reliance on the shared secret might be an adequate
-compromise.
+\subsubsection{SUIT Manifest Overhead}
+
+In space communication transferring data is costly, reducing the Manifest
+overhead~\ref{tab:manifest-overhead} for mission files transfers is highly
+desirable. This can be done by using \texttt{COSE\_MAC0\_tagged} instead of
+\texttt{COSE\_SGN0\_tagged} (-56Bytes) and integrating the payload into the
+manifest (-64Bytes from the URI), reducing the manifest size to 162Bytes,
+effectively reducing the overhead to \~23\%.
+

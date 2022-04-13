@@ -3,21 +3,22 @@
 
 \begin{document}
 
-\centering
-\begin{tabular}[t]{cccc}
-    \hline\hline
-    \textbf{Component}             & RAM  & ROM    & Combined   \\
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccc}
     \hline
-    \textbf{Manifest-Digest}       & 32B  & 32B    & 32B        \\
-    \textbf{Identifiers}           & 32B  & 32B    & 32B        \\
-    \textbf{Data-Digest}           & 32B  & 64B    & 96B        \\
-    \textbf{Manifest-Metadata}     & 164B & 225B   & 317B       \\
-    \textbf{Data-URI}              & 64B  & 128B   & 192B       \\
-    \hline
-    \textbf{Manifest}              & 324B & 481B   & 669B       \\
-    \hline\hline
-    \textbf{Data}                  & 570B & 57.7KB & 58.2KB     \\
-    \hline
+    \textbf{Component}          & missions & application  \\ \hline
+    \textbf{Critical-Metadata}  &          &              \\
+            Sequence-Number     & 4B       & 4B           \\
+            Manifest-Version    & 1B       & 1B           \\
+    \textbf{Digests}            &          &              \\
+            Manifest            & 32B      & 32B          \\
+            Data                & 32B      & 64B          \\
+    \textbf{Identifiers}        & 32B      & 32B          \\
+    \textbf{Data-URI}           & 64B      & 128B         \\
+    \textbf{Authentication}     & 64B      & 64B          \\
+    \textbf{Other-Metadata}     & 85B      & 136B         \\ \hline
+    \textbf{Manifest}           & 324B     & 481B         \\ \hline
+    \textbf{Transfer Overhead}  & 46\%     & 0.12\%       \\ \hline
 \end{tabular}%
-
+}
 \end{document}
