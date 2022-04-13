@@ -33,9 +33,29 @@ those footprint across 4 scenarios:
     interface.
     \item \textbf{OTA}: a minimal OTA application, CoAP endpoint, CSP network stack
     and CAN-BUS interface.
-    \item \textbf{CubeDate}: CubeDate setup: CoAP endpoint, SUIT update of fw (ROM)
-    and virtualMachine (RAM), CSP Network stack and CAN-BUS interface.
+    \item \textbf{CubeDate}: CubeDate setup: CoAP endpoint, SUIT update of FW(ROM)
+    and VirtualMachine\cite{zandberg2021femto}(RAM), CSP Network stack and CAN-BUS interface.
 \end{itemize}
+
+Furthermore we categorize the different components in the firmware as follows:
+
+\francisco{need to improove on categorization some stuff was not fitted in}
+\begin{itemize}
+    \item can: CAN (Controller Area Network) stack as well as low level interface
+    \item cbor\&cose: libraries used for COSE and CBOR parsing
+    \item crypto: all cryptographic algorithms such as digest algorithm, digital
+    signature, ECC and bignum, as well as pseudo-random numbers generator
+    \item core: everything else??
+    \item coap: CoAP protocol library (CoAP endpoint stack excluded)
+    \item network: CSP (Cube Sat Protocol) network stack
+    \item ota: components enabling retrieval and installation of delivered data
+    (fw or other), this include e.g. the CoAP endpoint stack.
+    \item suit: code related to parsing a SUIT manifest
+\end{itemize}
+
+The flash memory footprints (total and broken down per component) are shown in
+\ref*{tab:footprint-rom}. The crypto library used is D.Beer C25519 library, this
+is the library with the lowest footprint for ED25519 as shown in \cite{zandberg2019secure}.
 
 \begin{table}[ht]
     \caption{ROM Footprint STM32F401RE}
@@ -50,25 +70,6 @@ those footprint across 4 scenarios:
     \includestandalone[width=1\columnwidth]{Figures/texfigs/ram_footprint_table}
 \end{table}
 
-\subsubsection{Energy Footprint} \francisco{Didier Olivier can you add some numbers}
-
-\subsubsection{SUIT Update}
-
-SUIT overhead is negligible when updating firmware, but with small files the overhead
-is.
-
-Options to improve
-
-\begin{itemize}
-    \item combine when possible both
-    \item use COSE\_MAC to reduce size, and verification time
-    \item strip down manifest
-\end{itemize}
-
-\begin{figure}
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/update_time_ram_pie}
-\end{figure}
-
 \begin{table}[ht]
     \caption{SUIT Manifest Binary Overhead}
     \label{tab:manifest-overhead}
@@ -76,20 +77,34 @@ Options to improve
     \includestandalone[width=1\columnwidth]{Figures/texfigs/manifest_overhead_table}
 \end{table}
 
-\begin{figure}
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/manifest_overhead_pie}
-\end{figure}
+\subsubsection{Energy Footprint}
 
+\francisco{Didier Olivier can you add some numbers}
 
-The price of SUIT in ThingSat:
+\subsubsection{Network Stack}
 
-\begin{itemize}
-    \item Updates do not happen often compared to mission updates
-    \item Low Bandwith
-\end{itemize}
+Standarized network stack usage: \cite{wachter20206locan01}, numbers on gnrcminimal,
+if Using LoRaWAN SCHC\cite{rfc8724}, is it worth using a custom network stack?
 
-\subsection{Discussion: Going Forward}
-- Differential Updates: mention vcdiff RIOT
-- Update over LoRa: use of SCHC
-- SUIT Manifest embed payload for small updates, or strip down manifest
-- Use of COSE\_Mac0\_Tagged instead of COSE\_Sign1\_Tagged
+\subsubsection{SUIT Data}
+
+Size of payloads, containerization, differential updates(vcdfiff), leverage mission files.
+
+\subsubsection{SUIT Manifest}
+
+Taking a look at \ref*{tab:manifest-overhead} suggest stripping down some things.
+
+\subsubsection{SUIT Authentication}
+
+SUIT relies on COSE for authentication, but although digital signatures is the
+most used method, the standard also for using tagged Message Authentication Code
+(MAC).
+
+The FLASH cost of crypto shown in \ref{tab:footprint-rom} comes mostly from the
+digital signature library 75\%\cite{zandberg2019secure}. If instead an HMAC-256/64
+MAC authentication algorithm was used the ROM footprint can be greatly reduced.
+This would also allow to reduce he size of the Authentication block\ref*{tab:manifest-overhead}
+Granted, a shared secret would require being distributed before hand, but for a
+CubeSat use case where an attacker would have no-likely physical access to the
+device (once in-orbit), the reliance on the shared secret might be an adequate
+compromise.
