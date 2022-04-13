@@ -96,7 +96,7 @@ The Thingsat payload may act in turns as either
 (iii) a store-carry-and-forward LoRa gateway.
 
 Patterns (i) and (ii) allow to benchmark simple ground-space LoRa links by
-making statistics over multiple sent/received frames. 
+computing statistics over multiple sent/received frames. 
 Pattern (iii) is a more
 complex scenario: the satellite stores packets received from GS/ED and deliver
 them once GS/ED destinations are inside the footprint of the satellite.
@@ -127,13 +127,20 @@ instructions/files, GPS, time, ADCS, time before shutdown, ...
 \fi
 
 \paragraph*{Intermittent communication/power supply}
-Last but not least, the Thingsat payload is not powered on at all times.
-Typically on such a cubesat, the power available is only
-enough for one active payload at a time. 
+Last but not least, the Thingsat payload is not powered ON all the time.
+On such a cubesat, the power available is only enough for one active payload at a time. 
 %The mission of the STORK constellation is earth observation. So each STORK cubesat is equipped with an imager~\cite{wiki:SatRevolution} which has its own missions.
 The OBC is in charge of turning on the relevant payload according to a schedule uploaded from the ground station. 
-\todoEB{reformulate/check this bit: what average percentage of the time is the payload powered?}
+Typically, for a 3U, 1U is dedicated to the OBC and the remaining 2U, available for host payloads, is divided in 8 slots.
+The Thingsat payload occupies one slot out of 8 and would be turned ON 12.5\% of the time. 
+It is obviously an average since the schedule to turn on payloads relies on multiple factors (mission specificities, regulations, battery level). 
+% \todoEB{reformulate/check this bit: what average percentage of the time is the payload powered?}
 This intermittent power supply, combined with orbiting and radio range limitations impacts the intermittence of network connectivity to/from the Thingsat payload.
+
+% solar panel rechargé la moitié du temps
+% 1U pour l'OBC + 2U pour le reste avec 8 slots dont Thingsat a 12.5% du temps de l'énergie
+% les images c est pas tout le temps (pas quand on survole les russes) allumé aussi de la région of interest
+% donc il faut aussi respecter la régulation des émissions et collecte des données
 
 \subsection{Hosted Payload Software Updates Requirements}
 \label{sec:thingsat-update-req}
@@ -144,22 +151,36 @@ This intermittent power supply, combined with orbiting and radio range limitatio
 
 The data exchanged by the Payload Maintainer with the Thingsat payload consists in 
 \begin{enumerate}
-    \item mission files (to update configuration scenarios/scripts),
-    \item recovery of experiment results,
-    \item firmware updates (fix bugs, add/improve functionality),
-    \item recovery of diagnostics (debug failed missions/updates).
+    \item Firmware updates (Uplink): fix bugs, add/improve functionality, $\sim 200kB$ per FW, 1 FW/month,
+    \item Mission description (Uplink): to update configuration scenarios/scripts, $\sim 700B$ per mission, 10 missions/day,
+    \item Mission results (Downlink): radio metadata, frame stats, collected LoRa frames, $\sim 700B$ per mission, 
+    \item Diagnosis (Downlink): debug failed missions/updates, $\sim200B$ per mission.
 \end{enumerate} 
+
+% 1 mission = envoi de frames sur une zone (fichier jetable pour l'instant, )
+% combien de groupes de missions envoyés par semaine ? --> quelle taille va être sécurisée par SUIT ?
+% 10 missions par jour vérifiée par SUIT
+
+% sequence mission description : .EXP Experiment_t                     1820     2KB                                          
+% .RES Result_t                         717                                                
+% .PKT (32kB) et .TMP (local pour forward)  PktFile_t                    2858     x  256 = 730 KB
+% chaque mission = .RES + .PKT only metadata + truncated pkts if too long (?)   
+% .DIA Diag_t                           222
+
+% https://gricad-gitlab.univ-grenoble-alpes.fr/thingsat/thingsat-modules/-/blob/master/modules/mission/include/lgw_pkt_rx.h#L59
+% https://gricad-gitlab.univ-grenoble-alpes.fr/thingsat/thingsat-modules/-/blob/mission_scenario/modules/mission/include/pktfile.h#L65
+
 
 % The ability to reprogram the cubesat in orbit is essential for academic projects like Thingsat. First the design, development and deployment life-cycles of cubesat projects are quite short and the financial budget in academic projects is limited. Secondly the academic development team (students, professors, engineers) are at best experts in their respective domain but not necessarily familiar with space systems. Those constraints makes it impossible to deliver a fully functional device in time. The COVID context aggravated the situation with forced remote working, electronic component shortages and delayed shippings. 
 
 % \paragraph*{What needs updates}: Missions ? 
 
-Software update consists in above parts (1) and (3). To give an idea
-for (1) the size of mission files is in the order of 10kBytes and the frequency of updates is roughly once a month. 
-To give an idea 
-for (3) the size of firmware updates is in the order of 100kBytes and the frequency of updates is roughly XXX( WITHOUT SUIT!!!).
+% Software update consists in above parts (1) and (3). To give an idea
+% for (1) the size of mission files is in the order of 10kBytes and the frequency of updates is roughly once a month. 
+% To give an idea 
+% for (3) the size of firmware updates is in the order of 200kBytes and the frequency of updates is roughly XXX( WITHOUT SUIT!!!).
 
-\todoOA{Check numbers above. Be more specific on those files (discuss with Didier + give typical size of files, frequency of updates (and show sample config file?)}
+% \todoOA{Check numbers above. Be more specific on those files (discuss with Didier + give typical size of files, frequency of updates (and show sample config file?)}
 
 %sIn-orbit software updates must allow for updating radio drivers, the evolution of missions scenarios or configurations file format, bug resolutions ...
 % Fortunately the use of RIOT-OS greatly facilitates the process to update softwares \textcolor{red}{but still needed adaption to our context}.
