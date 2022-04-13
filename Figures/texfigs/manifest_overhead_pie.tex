@@ -2,13 +2,13 @@
 7.0,30.6,62.4
 \end{filecontents*}
 
-\begin{filecontents*}{fw_data.csv}
-0.2,0.61,99.2
-\end{filecontents*}
+% \begin{filecontents*}{fw_data.csv}
+% 0.2,0.61,99.2
+% \end{filecontents*}
 
-\begin{filecontents*}{ram_fw_data.csv}
-0.3,0.8,0.9,97.9
-\end{filecontents*}
+% \begin{filecontents*}{ram_fw_data.csv}
+% 0.3,0.8,0.9,97.9
+% \end{filecontents*}
 
 \documentclass{standalone}
 \usepackage[utf8]{inputenc}
@@ -17,17 +17,14 @@
 \usepackage{pgf-pie}
 
 \begin{document}
-
-\begin{figure}
-    \centering
-    \begin{tikzpicture}
-\csvreader[no head]%
-{ram_data.csv}
-{1=\colVali,2=\colValii,3=\colValiii}
-{%
-  \pie[polar, explode=0.2, text = legend,]
-  {\colVali/data-uri,\colValii/suit-manifest (no-uri),\colValiii/data}
-}
+\centering
+\begin{tikzpicture}
+  \csvreader[no head]%
+  {ram_data.csv}
+  {1=\colVali,2=\colValii,3=\colValiii}
+  {%
+    \pie[polar, explode=0.2, text = legend,]
+    {\colVali/data-uri,\colValii/suit-manifest (no-uri),\colValiii/data}
+  }
 \end{tikzpicture}
-\end{figure}
 \end{document}

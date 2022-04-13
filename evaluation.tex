@@ -20,8 +20,12 @@ TODO some things where hard to fit in categories, adjust values
 Categories Details:
 Describe Setup: no acceleration, nucleo-f401re,
 
-\includestandalone[]{Figures/texfigs/flash_footprint_table}
-\includestandalone[]{Figures/texfigs/ram_footprint_table}
+\begin{table}
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/flash_footprint_table}
+\end{table}
+\begin{table}
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/ram_footprint_table}
+\end{table}
 
 \subsubsection{Energy Footprint} \francisco{Didier Olivier can you add some numbers}
 
@@ -38,11 +42,18 @@ Options to improve
     \item strip down manifest
 \end{itemize}
 
-\includestandalone[]{Figures/texfigs/update_time_ram_pie}
+\begin{figure}
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/update_time_ram_pie}
+\end{figure}
 
-\includestandalone[]{}[]{Figures/texfigs/manifest_overhead_pie}
+\begin{table}
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/update_time_ram_table}
+\end{table}
 
-\includestandalone[width=1\columnwidth]{Figures/texfigs/update_time_ram_table}
+\begin{figure}
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/manifest_overhead_pie}
+\end{figure}
+
 
 The price of SUIT in ThingSat:
 
