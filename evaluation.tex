@@ -1,29 +1,52 @@
 \section{Cubedate Evaluation and Discussion}
 \label{sec:evaluation}
 
-\subsection{Evaluatio}
+The analysis of the implementation was two-fold, first we evaluate how the SUIT
+based architecture fitted the CubeSat and CubeSat hosted payload use case.
+Second, we discuss possible modifications to the workflow, architecture and
+protocols.
 
-Scenarios:
+\subsection{Evaluation}
+
+The hardware setup for the numerical analysis consisted of:
 
 \begin{itemize}
-    \item tests\/riotboot\_flashwrite
-    \item tests\/pkg\_libcsp
-    \item examples\/suit\_csp and femto-container in ram
+    \item STM32F401RE, featuring a CORTEX\-M4 core with 512Kbytes of Flash memory
+          and 96Kbytes of RAM, running at 84Mhz.
+    \item MCP2515 Stand-Alone CAN Controller, running at 500Kbps.
+    \item 16Gbytes SD-CARD as an external storage for the CubeSat OBC simulator
 \end{itemize}
 
-\francisco{Standlone not working}
+In the following, code measurements where generated compiling with ARM GCC 10.2.1,
+optimized for code size.
 
 \subsubsection{Memory Footprint}
 
-TODO some things where hard to fit in categories, adjust values
+To evaluate the RAM \& ROM footprint cost of the CubeDate architecture we compared
+those footprint across 4 scenarios:
 
-Categories Details:
-Describe Setup: no acceleration, nucleo-f401re,
+\begin{itemize}
+    \item \textbf{bootloader}: RIOT default bootloader application incremented to
+    verify a sha256 digest of each firmware image.\footnote{Reason for the differences
+    with numbers with the bootloader application in\cite{zandberg2019secure}}
+    \item \textbf{baseline}: a minimal CSP application, CSP network stack and CAN-BUS
+    interface.
+    \item \textbf{OTA}: a minimal OTA application, CoAP endpoint, CSP network stack
+    and CAN-BUS interface.
+    \item \textbf{CubeDate}: CubeDate setup: CoAP endpoint, SUIT update of fw (ROM)
+    and virtualMachine (RAM), CSP Network stack and CAN-BUS interface.
+\end{itemize}
 
-\begin{table}
+\begin{table}[ht]
+    \caption{ROM Footprint STM32F401RE}
+    \label{tab:footprint-rom}
+    \centering
     \includestandalone[width=1\columnwidth]{Figures/texfigs/flash_footprint_table}
 \end{table}
-\begin{table}
+\begin{table}[ht]
+    \caption{RAM Footprint STM32F401RE}
+    \label{tab:footprin-ram}
+    \centering
     \includestandalone[width=1\columnwidth]{Figures/texfigs/ram_footprint_table}
 \end{table}
 
@@ -46,8 +69,11 @@ Options to improve
     \includestandalone[width=1\columnwidth]{Figures/texfigs/update_time_ram_pie}
 \end{figure}
 
-\begin{table}
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/update_time_ram_table}
+\begin{table}[ht]
+    \caption{SUIT Manifest Binary Overhead}
+    \label{tab:manifest-overhead}
+    \centering
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/manifest_overhead_table}
 \end{table}
 
 \begin{figure}
