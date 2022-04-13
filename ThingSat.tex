@@ -41,7 +41,7 @@ altitude of 525 km (See
 \subsection{Distributed System Architecture}
 
 The figure \ref{fig:thingsat-archi} describes the Thingsat deployment components, which gives an
-overview of a typical cubesat ecosystem hosting a payload, whereby the interaction with this payload traverses unstrusted elements.
+overview of a typical cubesat ecosystem hosting a payload, whereby the interaction with this payload traverses untrusted elements.
 
 \subsection*{Low-power Space Segment} 
 % \paragraph*{Space Segment Description}
@@ -70,8 +70,8 @@ Thingsat payload consumes at 3.3V :
 For the Ground Segment, elements which communicate with the Thingsat payload are of multiple nature. are of the cubesat operator relies on 
 \begin{itemize}
 \item The cubesat operator provides a number of Ground Stations\footnote{not necessarily owned by the cubesat operator} to communicate via UHF/VHF with the OBC, and indirectly with the payload. 
-A Command \& Control Center is also provided to operate the cubesat (telecommand/telemetry) which acts as borker for payload maintainers to interact with the hosted payload.
-\item Additionally, we designed and deployed and maintain LoRa-based  \href{https://github.com/thingsat/tinygs_2g4station}{Thingsat ground stations}, which can communicate with the Thingsat payload directly via LoRa. These stations are based on a low-cost ESP32 microcontroller, and an SX1280 transciever for LoRa communication at 2.4GHz, also running an open source firmware based on RIOT.
+A Command \& Control Center is also provided to operate the cubesat (telecommand/telemetry) which acts as broker for payload maintainers to interact with the hosted payload.
+\item Additionally, we designed and deployed and maintain LoRa-based  \href{https://github.com/thingsat/tinygs_2g4station}{Thingsat ground stations}, which can communicate with the Thingsat payload directly via LoRa. These stations are based on a low-cost ESP32 microcontroller, and an SX1280 transceiver for LoRa communication at 2.4GHz, also running an open source firmware based on RIOT.
 \end{itemize}
 % \paragraph*{OBC \& Payload Communication Bus}
 
@@ -97,7 +97,7 @@ The Thingsat payload may act in turns as either
 
 Patterns (i) and (ii) allow to benchmark simple ground-space LoRa links by
 making statistics over multiple sent/received frames. 
-attern (iii) is a more
+Pattern (iii) is a more
 complex scenario: the satellite stores packets received from GS/ED and deliver
 them once GS/ED destinations are inside the footprint of the satellite.
 

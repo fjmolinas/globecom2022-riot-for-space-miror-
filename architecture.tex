@@ -1,13 +1,13 @@
 \section{Cubedate: Standard Security for Continuous Deployment of Low-power CubeSat Software}
 \label{sec:low-power-orbital-communication-arch}
 
-In this section we describe Cubedate, a structured approach to securing heterogeneous software udpates for Cubesat software in orbit.
+In this section we describe Cubedate, a structured approach to securing heterogeneous software updates for cubesat software in orbit.
 
 \subsection{Security Requirements}
-The minimal security guarantees that we aim for with Cubedate are authenticity and integrity of software udpates delivered over the network, during the lifetime of the satellite mission (5-10 years).
+The minimal security guarantees that we aim for with Cubedate are authenticity and integrity of software updates delivered over the network, during the lifetime of the satellite mission (5-10 years).
 As a matter of fact, a 10 years life span is a rather long time, during which cryptographic primitives used to secure software updates may have to evolve.
 Thus Cubedate must allow for crypto agility: evolving the crypto primitives used to secure update to the satellite while in operation. This need can be dictated either by cryptography's evolving state-of-the-art (implementation/algorithm vulnerabilities are discovered) or by the need to transfer the trust anchor to a new entity (the authorized maintainer has changed).
-Additional guarantees beyond authenticity/integrity should also possible with Cubedate, such as confidentality, software update replay attacks, or software update mismatch attacks.
+Additional guarantees beyond authenticity/integrity should also be possible with Cubedate, such as confidentiality, software update replay attacks, or software update mismatch attacks.
 
 \subsection{Trust Anchor}
 Our model is based on a single trust anchor: the authorized maintainer for the cubesat hosted payload.
@@ -16,11 +16,11 @@ We thus rely on the maintainers' ability to keep their private keys secure.
 Extensions using a (hierarchical) public key infrastructure are possible but out of scope for this paper.
 
 \subsection{Cubedate Software Life-Cycle Phases}
-The basic process we use for securing authenticity and integrity of software udpates is decomposed in six phases shown \autoref{fig:phases}. 
+The basic process we use for securing authenticity and integrity of software updates is decomposed in six phases shown \autoref{fig:phases}. 
 
 During a preliminary, pre-flight phase (\textit{Phase 0}) the authorized maintainer for the CubeSat-hosted payload
 produces and flashes the payload with commissioning material:
-a bootloader, the initial firmware, and authorized crypto material (a public key, and a crypographically strong hash function).
+a bootloader, the initial firmware, and authorized crypto material (a public key, and a cryptographically strong hash function).
 Once the hosted payload is commissioned it can be sent to the CubeSat operator of installation in the CubeSat.
 
 Once the CubeSat in orbit, the hosted payload maintainer can trigger iterations through cycles of Phases 1-5, whereby
@@ -60,19 +60,19 @@ combined with fact that CubeSat are out-of-range for ground stations radios a la
 Hence, while in transit across the network, software update data may have to be temporarily cached at some intermediate node along the path.
 \fi
 
-To cope with this wide variety of network paths and links (including ultra-constrained low-power elements), different approaches can be envisionned at the network layer, the transport layer and the application layer. Approaches span from proprietary solutions, to standards such as the low-power IPv6 protocol stack (6LoWPAN, UDP, CoAP \cite{morabito2020ietf}) or experimental stacks such as information-centric networking which can achieve benefits using in-network caching even with small caches on microcontrollers \cite{hahm2017low}. 
+To cope with this wide variety of network paths and links (including ultra-constrained low-power elements), different approaches can be envisioned at the network layer, the transport layer and the application layer. Approaches span from proprietary solutions to standards such as the low-power IPv6 protocol stack (6LoWPAN, UDP, CoAP \cite{morabito2020ietf}) or experimental stacks such as information-centric networking which benefits from in-network caching even with small caches on microcontrollers \cite{hahm2017low}. 
 
-Nevertheless, in order to retain generality, Cubedate does not specify the use of any particular approach at the network, transport and application layers to enable the delivery of software updates across the network.
+Nevertheless, in order to retain generality, Cubedate does not specify any particular approach at the network, transport and application layers to enable the delivery of software updates across the network.
 Cubedate only aims to guarantee end-to-end security properties for the software update binaries that are delivered, somehow, over the network.
 
 \subsection{Supporting Updated Software Heterogeneity}
 This aspect concerns both \textit{Phase 1} and \textit{Phase 5} in \autoref{fig:phases}. 
-As we have seen in \autoref{sec:thingsat-update-req} that software which must be updated may be of various nature, and size.
-Cubedate aims to support which the same mechanism, workflow and guarantee the update of cubesat (1) firmware updates, (2) mission scenario files, (3) runtime configuration files.
+As seen in \autoref{sec:thingsat-update-req}, software updates may be of various nature and size.
+Cubedate aims to support the same mechanism, workflow and guarantee to update the cubesat (1) firmware updates, (2) mission scenario files and (3) runtime configuration files.
 
-For this reason, we choose to not rely on specialized approaches such as DFU (Device Firmware Update \cite{beningo2018dfu}) which assumes the software is firwmare and that the device is connected directly via some local bus connection (e.g. USB).
+For this reason, we choose not to rely on specialized approaches such as DFU (Device Firmware Update \cite{beningo2018dfu}) which assumes that the software is firmware and that the device is connected directly via some local bus connection (e.g. USB).
 
-Instead, we aim to combine the use of generic and standard metadata characterizing software updates and state-of-the-art cryptographic primitives applicable on most low-power microcontrollers and a large variety of low-power networks, as descibed below.
+Instead, we aim to combine the use of generic and standard metadata characterizing software updates and state-of-the-art cryptographic primitives applicable on most low-power microcontrollers and a large variety of low-power networks, as described below.
 
 \subsection{Low-power End-to-End Security using SUIT}
 
@@ -86,13 +86,13 @@ As such, using Cubedate, software updates for payload hosted on CubeSats mitigat
 \begin{itemize}
 \item {\bf Tampered Software Update Attacks –} An attacker may try to update the IoT device with a modified and intentionally flawed software image. To counter this threat, Cubedate uses digital signatures on a hash of the image binary and the metadata to ensure integrity of both the firmware and its metadata.
 
-\item {\bf Unauthorized Software Update Attacks –} An unauthorized party may attempt to update the IoT device with modified image. Using digital signatures and public key cryptography, Cubedate ensures, that only the authorized maintainer (holding the authorized private key) will be able to update de device.
+\item {\bf Unauthorized Software Update Attacks –} An unauthorized party may attempt to update the IoT device with modified image. Using digital signatures and public key cryptography, Cubedate ensures that only the authorized maintainer (holding the authorized private key) will be able to update the device.
 \end{itemize}
 
 \subsection{Supporting Crypto Agility}
-The first level of crypto agility enabled by Cubedate uses flexibility provided by the SUIT standard specification: while keeping the same metadata and worksflow, diverse crypto primitives backends can be used. For instance, to upgrade from pre- to post-quantum security, digital signature performed with ed25519 (elliptic curve crypto), can be swapped for hash-based signatures (LMS~\cite{banegas2022quantum-suit}).
+The first level of crypto agility enabled by Cubedate uses flexibility provided by the SUIT standard specification: while keeping the same metadata and workflow, diverse crypto primitives backends can be used. For instance, to upgrade from pre- to post-quantum security, digital signature performed with ed25519 (elliptic curve crypto), can be swapped for hash-based signatures (LMS~\cite{banegas2022quantum-suit}).
 
-The second level of crypto agility enabled by Cubedate leverage a dedicated embedded runtime architecture as shown the Flash memory layout depicted in \autoref{fig:cubedate-runtime}. On the one hand, we place the software update manager (implementing SUIT-related operations) in the firmware image itself. On the other hand, we perform cryptographic operations in software only.
+The second level of crypto agility enabled by Cubedate leverages a dedicated embedded runtime architecture as shown on the Flash memory layout depicted in \autoref{fig:cubedate-runtime}. On the one hand, we place the software update manager (implementing SUIT-related operations) in the firmware image itself. On the other hand, we perform cryptographic operations in software only.
 
 Thus, changing the trust anchor stored is as simple as swapping a public key in the next firmware's update manager.
 Authorization to update the firmware can thus be easily  delegated to another maintainer, 
@@ -110,8 +110,8 @@ implement and use upgraded cryptographic primitives.
 
 \subsection{Guarantees beyond Authenticity/Integrity}
 
-Using Cubedate, guaranteeing confidentiality is also possible using (optional) encryption of software updates transmitted over the network.
-This is performed using the encrypt/decrypt mechanism provided by the SUIT specifications~\cite{suit-firmware-encryption}, using a symmetric cryptographic key commissionned in the update manager by the authorized maintainer. 
+Cubedate may also guarantee confidentiality by encrypting (optional) software updates transmitted over the network.
+It is performed using the encrypt/decrypt mechanism provided by the SUIT specifications~\cite{suit-firmware-encryption}, using a symmetric cryptographic key commissioned in the update manager by the authorized maintainer. 
 Confidentiality can mitigate additional cyberattacks leveraging analysis of cubesat firmware/software binaries.
 
 Going beyond authenticity, integrity and confidentiality guarantees for software updates delivered over the network, using Cubedate also mitigates other attacks including:
