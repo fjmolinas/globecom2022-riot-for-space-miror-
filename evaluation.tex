@@ -1,8 +1,6 @@
 \section{Cubedate Evaluation and Discussion}
 \label{sec:evaluation}
 
-%\subsection{Evaluation}
-
 In the following, code measurements where generated compiling with ARM GCC 10.2.1,
 optimized for code size. As code base, we used RIOT release 2022.01 and SUIT configured
 with ed25519 digital signatures provided by the C25519 crypto library (which has a small
@@ -16,6 +14,24 @@ the ThingSat use-case, compiled for the hosted payload hardware described in \au
 In \autoref{tab:footprint} we compare the RAM and Flash memory requirements for a ThingSat firmware with/without Cubedate-compliant updates.
 We observe that Cubedate requires a memory budget of $\sim$4KB of RAM and $\sim$19KB of Flash, which represents roughly a 10\%
 increase in the total RAM and Flash memory budget for ThingSat.
+
+\begin{table}[h]
+\begin{adjustbox}{width=0.8\columnwidth,center}
+    \centering
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/memory_footprint_table}
+\end{adjustbox}
+\caption{Cubedate implementation: memory footprint in bytes.}
+\label{tab:footprint}
+\end{table}
+
+\begin{table}[h]
+\begin{adjustbox}{width=\columnwidth,center}
+    \centering
+    \includestandalone[width=0.8\columnwidth]{Figures/texfigs/manifest_overhead_table_simplified-flat}
+\end{adjustbox}
+\caption{Cubedate implementation: SUIT metadata size.}
+\label{tab:manifest}
+\end{table}
 
 \subsubsection{Network Transfer Overhead}
 On the UHF/VHF link at 1kb/s, the additional network transfer time induced by the Cubedate firmware size overhead (19KB) is roughly 15 seconds.
@@ -56,25 +72,6 @@ The flash memory footprints (total and broken down per component) are shown in
 is of $\sim$4KB of RAM and $\sim$19KB of flash.
 
 \fi
-
-\begin{table}[t]
-\begin{adjustbox}{width=0.8\columnwidth,center}
-    \centering
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/memory_footprint_table}
-\end{adjustbox}
-\caption{Cubedate implementation: memory footprint in bytes.}
-\label{tab:footprint}
-\end{table}
-
-
-\begin{table}[t]
-\begin{adjustbox}{width=\columnwidth,center}
-    \centering
-    \includestandalone[width=0.8\columnwidth]{Figures/texfigs/manifest_overhead_table_simplified-flat}
-\end{adjustbox}
-\caption{Cubedate implementation: SUIT metadata size.}
-\label{tab:manifest}
-\end{table}
 
 
 \section{Discussion \& Perspectives}
