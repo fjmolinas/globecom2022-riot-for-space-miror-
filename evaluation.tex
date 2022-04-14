@@ -1,20 +1,30 @@
 \section{Cubedate Evaluation and Discussion}
 \label{sec:evaluation}
 
-The analysis of the implementation was two-fold, first we evaluate how the SUIT
-based architecture fitted the CubeSat and CubeSat hosted payload use case.
-Second, we discuss possible modifications to the workflow, architecture and
-protocols.
+%The analysis of the implementation was two-fold, first we evaluate how the SUIT based architecture fitted the CubeSat and CubeSat hosted payload use case. Second, we discuss possible modifications to the workflow, architecture and protocols.
 
-\subsection{Evaluation}
+%\subsection{Evaluation}
 
 In the following, code measurements where generated compiling with ARM GCC 10.2.1,
-optimized for code size. The crypto library used is D.Beer C25519 library, this
-is the library with the lowest footprint for ED25519 as shown in~\cite{zandberg2019secure}.
+optimized for code size. As code base, we used RIOT release 2022.01 and SUIT configured with ed25519 digital signatures provided by the C25519 crypto library as backend (which has small footprint as shown in prior work~\cite{zandberg2019secure}).
 
-\subsubsection{Memory Footprint}
+\subsubsection{Memory Footprint Overhead}
 
-To evaluate the RAM and flash footprint of the CubeDate architecture we evaluate them
+To evaluate the RAM and Flash footprint of our Cubedate implementation, we apply it to the Thingsat use-case, compiled for the hosted payload hardware described in \autoref{sec:thingsat-hw} (based on a Cortex-M microcontroller).  
+
+In \autoref{tab:footprint} we compare the RAM and Flash memory requirements for a Thingsat firmware without/with Cubedate-compliant secure software updates.
+We observe that Cubedate requires a memory budget of $\sim$4kB of RAM and $\sim$19kB of Flash, which represents roughly a 10\% increase in the total RAM and Flash memory budget for Thingsat.
+
+\subsubsection{Network Transfer Overhead}
+On the UHF/VHF link at 1kb/s, the additional network transfer time induced by the Cubedate firmware size overhead (19kB) is roughly 15 seconds. This overhead is reasonable, but not negligible keeping in mind that a connection to the cubesat is segmented in time windos of $\sim$ 300 seconds.
+
+Next, in \autoref{tab:footprint} we look in more details at the metadata (SUIT manifest) used to secure Cubedate software updates for Thingsat.
+As we can see, the metadata including all CBOR/COSE formating, digests (SHA256 hashes) and autentication data (ed25519 signature) amounts to $\sim$330Bytes. The metadata overhead thus incurs negligible overhead (+0,15\%) in case of a Thingsat firmware update (of size 200kB on average, recall \autoref{sec:thingsat-update-req}). However, in case of a smaller software update such as updating a mission scenario (average size 700Bytes) the overhead of adding Cubedate metadata is significant (almost +50\%). 
+Nevertheless, on the UHF/VHF link at 1kb/s, this overhead remains negligible in terms of additional network transfer time.
+
+\iffalse
+
+architecture we evaluate them
 in two configurations, furthermore we categorize the different components to
 distinguish the SUIT endured overhead
 
@@ -38,8 +48,8 @@ distinguish the SUIT endured overhead
 The flash memory footprints (total and broken down per component) are shown in
 \autoref{tab:footprint}. It can be seen that the overhead of Cubedate for ThingSat
 is of \~4Kbytes of RAM and \~19Kbytes of flash.
+\fi
 
-In \autoref{tab:manifest-overhead} network transfer overhead is measured against the average mission file size (700Bytes) and the average firmware image size (200 KBytes).
 
 \begin{table}[ht]
 \begin{adjustbox}{width=0.8\columnwidth,center}
