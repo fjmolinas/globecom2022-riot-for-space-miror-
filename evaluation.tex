@@ -63,10 +63,10 @@ is of $\sim$4KB of RAM and $\sim$19KB of flash.
 \subsection{Discussion \& Perspectives}
 
 \subsubsection{Portability} Bolted on top of RIOT, our Cubedate implementation works out-of-the-box (or is trivially portable) on a very wide variety of low-powr hardware built on Cortex-M microcontrollers: the bulk of the 200+ boards supported by RIOT.
-However, additional work would be needed to support other hardware based on differnt 32-bit microcontroller architectures (one thinks of RISC-V).
+However, additional work would be needed to support other hardware based on different 32-bit microcontroller architectures (one thinks of RISC-V).
 
 \subsubsection{Network Stack Simplification \& Standardization}
-The use of CSP was mandated by the cubesat operator. The purpose of CSP was to provide an ultra-low footprint equivalent of the IP protocol stack for cubesats with legacy (8-bit) microcontrollers.
+The use of CSP was mandated by the CuebSat operator. The purpose of CSP was to provide an ultra-low footprint equivalent of the IP protocol stack for CuebSats with legacy (8-bit) microcontrollers.
 However, on modern (32-bit) microcontrollers such as those used in ThingSat, this approach is questionable. An alternative to CSP based on more widely spread standards seems possible for the same "price". For example, RIOT's default low-power IPv6 (6LoWPAN) stack used with static routing has a footprint in RAM/Flash memory that is comparable (or smaller) than libCSP memory footprint. The 6LoWPAN stack could run direcly on the CAN bus or on LoRa (see 6loCAN~\cite{wachter20206locan01} and SCHC~\cite{rfc8724}).
 
 \subsubsection{Alternative cryptographic primitives}
