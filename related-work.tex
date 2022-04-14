@@ -1,10 +1,10 @@
 \section{Related Work}
 \label{sec:background-related-work}
 
-{\bf Open source hardware and software are increasingly used on low-cost CubeSats}, including on microcontroller parts.
+{\bf Open source hardware and software are increasingly used on low-cost CubeSats}, including microcontroller parts.
 For instance pyCubed~\cite{Holliday2019PyCubed} proposes open source CubeSat hardware based on an Arm Cortex-M4 (atsamd51)
-microcontroller and corresponding open source software based on Python (Adafruit CircuitPython).
-OreSat~\cite{spivey2021oresat} designs microcontroller based CubeSat, and provides corresponding open source software.
+microcontroller and its corresponding open source software based on Python (Adafruit CircuitPython).
+OreSat~\cite{spivey2021oresat} designs microcontroller based CubeSat, and provides the corresponding open source software.
 Organizations such as the Libre Space Foundation~\cite{librespace} harbor a number of open source software code basis for
 CubeSats, such as UPSat, Qubik.
 
@@ -16,12 +16,12 @@ A vanilla approach to securing low-cost CubeSat software updates, such as descri
 only uses weak security primitives (e.g., MD5 integrity checks) instead of strong primitives such as authentication
 with digital signatures and encryption.
 However, recent cyberattacks such as the ViaSat outage in Ukraine~\cite{viasat-cyberattack} suggest that, as CubeSat
-systems become more popular, they are likely to also become more prone to cyberattacks.
+systems become more popular, they are likely to become also more prone to cyberattacks.
 A crucial related challenge is thus {\bf how to provide strong security for in orbit software updates}.
 Prior work such as NUTS~\cite{birkeland2014nutsoverview,bezem2013nutsAuthenticatedUplink} have focused on authentication
 and communication security over the ground-flight uplink.
 
-To the best of our knowledge, however, no prior work exists on providing strong security for software updates on a low-power
+However, to the best of our knowledge, no prior work exists on providing strong security for software updates on a low-power
 CubeSat \textit{payload}, via a satellite uplink and an OBC that are \textit{both potentially untrusted}.
 This hosted CubeSat use-case is depicted in \autoref{fig:e2e}.
 

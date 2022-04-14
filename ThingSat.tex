@@ -8,12 +8,12 @@ effectiveness of that technology inside a LEO (Low Earth Orbit) CubeSat.
 ThingSat is deployed as a hosted payload on a shared 3U CubeSat:
 \href{https://space.skyrocket.de/doc_sdat/stork-1.htm}{STORK-1} from the polish
 start-up \href{https://www.satrevolution.com/}{SatRevolution}. The CubeSat was
-launched on January 13th, 2022,currently in orbit at an altitude of 525km (see its
+launched on January 13th, 2022, currently in orbit at an altitude of 525km (see its
 \href{https://www.n2yo.com/database/?q=STORK-1\#results}{Two-Line Elements}).
 
 The ThingSat payload now in orbit is used for Ocean level monitoring. However,
 its design can be adequate for a wider variety of use cases, in Earth science
-academic research (e.g. tacking the  melting of glaciers, pirate fishing...)
+academic research (e.g. tackling the  melting of glaciers, pirate fishing...)
 and in the industry for companies using geographically dispersed devices (e.g.
 monitoring of tank ships...).
 
@@ -69,10 +69,10 @@ transceiver, also running an open source firmware based on RIOT.
 \subsection{Communication Characteristics Overview}
 \label{sec:thingsat-comm-characteristics}
 
-ThingSat payload communicates either directly via low-power WAN, or indirectly
+ThingSat payload communicates either directly via low-power WAN (LPWAN), or indirectly
 via the UHF/VHF link provided by the CubeSat's OBC.
 
-\paragraph*{Direct communication patterns via low-power WAN}
+\paragraph*{Direct communication patterns via LPWAN}
 ThingSat can communicate directly with LoRa. In principle, although it is not used as
 such so far, this communication link could also be used to transport software updates.
 As shown in \autoref{fig:thingsat-comm} the ThingSat payload may act as either:
@@ -91,9 +91,9 @@ CubeSat-GS communications are typically done on amateur frequency
 bands (UHF/VHF) with typically low data rates ranging from 9.6Kbps to
 100Kbps.
 A polar LEO satellite will typically pass over a given ground station 2 to 4 times/day,
-each pass having a communication window of to 10 minutes.
+each pass having a communication window of 5 to 10 minutes.
 
-For ThingSat, the CubeSat Operator provides only 2 ground stations (both in Europe), communicating with
+For ThingSat, the CubeSat Operator provides only 2 ground stations (both in Europe) communicating with
 the CubeSat via a 10-Kbps UHF/VHF link. Thus, the daily throughput is roughly
 1500KB (corresponding to 2GS x 2 passes/day x 5-min pass duration x 10Kbps).
 However, this throughput must be shared between communications to/from the OBC
@@ -102,9 +102,9 @@ the total communication budget available for ThingSat via the UHF/VHF link is ar
 300KB/day.
 
 \paragraph*{Intermittent communication/power supply}
-Last but not least, the ThingSat payload is not constantly powered on. Typically, at point any time,
-only a single hosted payload is powered on. For a 3U, 1U is dedicated to the OBC
-and the remaining 2U, available for hosted payloads (8 payloads slots of 0.25U
+Last but not least, the ThingSat payload is not constantly powered on. Typically, at any point in time,
+only one single hosted payload is powered on. For a 3U, 1U is dedicated to the OBC
+and the remaining 2U is available for hosted payloads (8 payloads slots of 0.25U
 in the case of ThingSat). Therefore, on average ThingSat is powered only 1/8th (12.5\%) of the time
 (modulo other factors such as mission specificities, regulations, battery level etc.).
 
@@ -112,7 +112,7 @@ in the case of ThingSat). Therefore, on average ThingSat is powered only 1/8th (
 \label{sec:thingsat-update-req}
 Data exchanges between the Payload Maintainer and ThingSat consist on
 \textbf{downlinks}: used by ThingSat to send mission results (radio metadata, frame stats, collected LoRa frames)
-and diagnosis data (debug info on failed missions/updates) \textbf{uplinks}: used for software updates of two categories:
+and diagnosis data (debug info on failed missions/updates) and \textbf{uplinks}: used for software updates of two categories:
 \begin{enumerate}
     \item Firmware updates: to fix bugs, add/improve functionality (typically $\sim$200KB per FW, 1 FW/month);
     \item Mission updates: to configure scenarios (typically $\sim$700B per mission scenario, 1 scenario/day);
