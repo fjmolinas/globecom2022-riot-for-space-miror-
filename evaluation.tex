@@ -19,18 +19,20 @@ in two configurations, furthermore we categorize the different components to
 distinguish the SUIT endured overhead
 
 \begin{itemize}
-    \item \textbf{ThingSat}: a minimal CSP application, CSP network stack and CAN-BUS
-    interface.
-    \item \textbf{CubeDate}: CubeDate setup: CoAP endpoint, SUIT update of FW(ROM)
-    CSP Network stack and CAN-BUS interface.
-    \item can: CAN (Controller Area Network) stack as well as low level interface
-    \item crypto: all cryptographic algorithms such as digest algorithm, digital
+    \item \textbf{ThingSat} refers to the ThingSat payload application with no
+    software updates support
+    \item \textbf{CubeDate} implementation of the CubeDate architecture on the
+    ThingSat payload
+    \item CAN (Controller Area Network) stack as well as low level interface
+    \item Crypto includes all cryptographic algorithms such as digest algorithm, digital
     signature, ECC and bignum, as well as pseudo-random numbers generator
-    \item coap: CoAP protocol library (CoAP endpoint stack excluded)
-    \item csp: CSP (Cube Sat Protocol) network stack
-    \item suit: components enabling retrieval and installation of suit data
+    \item CoAP protocol library (CoAP endpoint stack excluded)
+    \item CSP (Cube Sat Protocol) network stack
+    \item LoRa GW includes the sx1302 driver as well as the gateway code
+    \item SUIT englobe all components enabling retrieval and installation of suit data
     (fw or other), this include e.g. the CoAP endpoint stack.
-    \item ThingSat: application specific code related to the CubeSat Payload
+    \item Firmware: application specific code related to the CubeSat Payload excluding
+    the LoRa gateway
 \end{itemize}
 
 The flash memory footprints (total and broken down per component) are shown in
@@ -42,7 +44,7 @@ In \autoref{tab:manifest-overhead} network transfer overhead is measured against
 \begin{table}[ht]
 \begin{adjustbox}{width=0.8\columnwidth,center}
     \centering
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/memory_footprint_table}    
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/memory_footprint_table}
 \end{adjustbox}
 \caption{Cubedate implementation: memory footprint in Bytes.}
 \label{tab:footprint}
