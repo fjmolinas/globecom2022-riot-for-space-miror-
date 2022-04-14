@@ -62,9 +62,15 @@ is of \~4KB of RAM and \~19KB of flash.
 
 \subsection{Discussion \& Perspectives}
 
+\subsubsection{Portability} Bolted on top of RIOT, our Cubedate implementation works out-of-the-box (or is trivially portable) on a very wide variety of low-powr hardware built on Cortex-M microcontrollers: the bulk of the 200+ boards supported by RIOT.
+However, additional work would be needed to support other hardware based on differnt 32-bit microcontroller architectures (one thinks of RISC-V).
+
 \subsubsection{Network Stack Simplification \& Standardization}
-The use of CSP was mandated by the cubesat operator. CSP was designed for cubesats with legacy (8-bit) microcontrollers as an ultra-low footprint equivalent of the IP protocol stack.
-However, on modern (32-bit) microcontrollers such as used in ThingSat, we argue that using CSP is questionable: an alternative based on more widely spread standards seems possible for the same "price". For example, RIOT's default low-power IPv6 (6LoWPAN) stack used with static routing has a RAM/Flash footprint that is comparable or smaller w.r.t libCSP. This stack could run direcly on the CAN bus or on LoRa (see 6loCAN~\cite{wachter20206locan01} and SCHC~\cite{rfc8724}).
+The use of CSP was mandated by the cubesat operator. The purpose of CSP was to provide an ultra-low footprint equivalent of the IP protocol stack for cubesats with legacy (8-bit) microcontrollers.
+However, on modern (32-bit) microcontrollers such as those used in ThingSat, this approach is questionable. An alternative to CSP based on more widely spread standards seems possible for the same "price". For example, RIOT's default low-power IPv6 (6LoWPAN) stack used with static routing has a footprint in RAM/Flash memory that is comparable (or smaller) than libCSP memory footprint. The 6LoWPAN stack could run direcly on the CAN bus or on LoRa (see 6loCAN~\cite{wachter20206locan01} and SCHC~\cite{rfc8724}).
+
+\subsubsection{Alternative cryptographic primitives}
+In our experimental evaluation, we used ed25519 (elliptic curve cryptography) digital signatures providing 128-bit pre-quantum security. One can consider either alternative primitives, while remaining compliant with Cubedate and the SUIT standard. One compromise to significantly decrease network transfer and memory footprint with Cubedate is to use HMAC (symmetric crypto) instead of digital signatures for authentication. Another option would be to upgrade security to 128-bit post-quantum security by using hash-based signature instead of ed25519.
 
 \iffalse
 In fact, taking as base
