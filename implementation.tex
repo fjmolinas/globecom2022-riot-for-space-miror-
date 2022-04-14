@@ -10,8 +10,8 @@ To provide a simple socket-like API on top of the raw CAN bus connecting hosted
 payloads and OBC on the CubeSat, we used \href{https://github.com/libcsp/libcsp}{libCSP},
 a library implementing the CubeSat Space Protocol (CSP version 1), which we integrated into RIOT.
 This stack is deployed on Satellites such as Nuts\cite{birkeland2014nutsoverview}, GomSpace
-and used by SatRevolution, as it was a requirement for communicating with the OBC.
-Roughly, CSP provides an \"equivalent\" of the IP/UDP stack and static routing.
+and used by SatRevolution. Roughly, CSP provides an \"equivalent\" of the IP/UDP stack
+and static routing.
 
 \underline{SUIT Implementation:}
 To fully support the wide variety of software updates case required by Cubedate, we
@@ -30,6 +30,8 @@ We generalized the SUIT state machine to add support for:
 \end{itemize}
 
 \underline{Network Pull Implementations:}
+
+\iffalse
 We implemented several alternatives for the client/server interaction which
 must be initiated by the hosted payload to pull (GET) software update data over the
 network from either the OBC, or a groundstation.
@@ -44,3 +46,10 @@ However, Cubedate is agnostic w.r.t the pull mechanism. To demonstrate this, we
 also implemented an alternative pull mechanism using UP (the Universal Platform protocol),
 a dedicated proprietary protocol provided by the CubeSat operator for request/response
 interaction with the OBC. This option is currently deployed and running on ThingSat in orbit.
+\fi
+The client/server interaction is initiated by tehe hosted payload pulls (GET) the software update data over the
+network from either the OBC, or a groundstation. The pull mechanism we implemented uses CoAP~\cite{rfc7252}
+an open standard low-power IPv6 protocol following a general-purpose REST architecture. In particular,
+it is not only applicable over the CAN/CSP link, but also usable over VHF links~\cite{palma2018vhf-coap}
+or LoRa links~\cite{sanchez2018lora-coap}, which paves the way for some Cubedate
+software updates over the direct link from a ThingSat LoRa groundstation to the ThingSat payload.
