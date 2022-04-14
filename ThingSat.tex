@@ -40,20 +40,20 @@ Attitude Determination and Control System (ADCS),
 communication subsystems (UHF/VHF/S-band for uplink/downlink and antennas) and
 power subsystem (Battery Management, Energy Harvesting with Solar Panels, Auxiliary Power Supply).
 
-\item We designed the Thingsat payload, using a STM32F405RG %STM32F446RE 
+\item We designed the ThingSat payload, using a STM32F405RG %STM32F446RE
 microcontroller featuring an ARM Cortex-M4 core
 and open source firmware based on RIOT~\cite{baccelli2018riot}. The ThingSat payload embeds both a
 \href{https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302}{Semtech SX1302 transceiver} for
 communications on the 863\-870 MHz band and a \href{https://www.semtech.com/products/wireless-rf/24-ghz-transceivers/sx1280}{Semtech SX1280 transceiver}
 for communications on the 2400\-2500 MHz band. Furthermore we designed a corresponding dual-band patch antenna (868MHz, 2.4GHz).
-When active and using the 863\-870 MHz band, the Thingsat payload consumes at 3.3V:
+When active and using the 863\-870 MHz band, the ThingSat payload consumes at 3.3V:
 (i) 90 mA in standby,
 (ii) 110 mA during a frame reception (RX) and
 (iii) 300 mA during a frame transmission (TX) at 27 dBm.
 \end{itemize}
 
 \subsection*{Ground Segments}
-Ground Segment elements that communicate with the Thingsat payload are:
+Ground Segment elements that communicate with the ThingSat payload are:
 \begin{itemize}
 \item \textbf{SatRevolution Ground Stations}: provided by the CubeSat operator \footnote{not
 necessarily owned by the CubeSat operator} to communicate via UHF/VHF with the OBC,
