@@ -27,7 +27,7 @@ for the CubeSat-hosted payload produces and flashes the payload with commissioni
 a bootloader, the initial firmware, and authorized crypto material (a public key, and a cryptographic hash function).
 Once the hosted payload is commissioned it can be sent to the CubeSat operator of installation in the CubeSat.
 
-Once the CubeSat is in orbit, the hosted payload maintainer can trigger iterations through cycles of Phases 1\-5, whereby
+Once the CubeSat is in orbit, the hosted payload maintainer can trigger iterations through cycles of Phases 1-5, whereby
 the authorized maintainer can build a new software update (\textit{Phase 1}), hash the update
 and sign the hash (\textit{Phase 2}) then push a network transfer (PUT) towards the hosted payload
 via the ground station and the OBC (\textit{Phase 3.1}). The next time it wakes up, the hosted payload can
@@ -43,7 +43,7 @@ and upon successful verification, install/boot the new software (\textit{Phase 5
 
 \subsection{Supporting Network Transport Heterogeneity}
 This aspect concerns \textit{Phase 3.1} and \textit{3.2} in \autoref{fig:phases}. Security guarantees on
-software updates must remain valid \"end\-to\-end\". Depending on the use-case, \"end\-to\-end\" spans differently,
+software updates must remain valid \"end-to-end\". Depending on the use-case, \"end-to-end\" spans differently,
 as depicted for example in \autoref{fig:e2e}. In the most complex case we tackle in this paper,
 end-to-end means all the way from the hosted payload software maintainer to the payload hosted in orbit on the CubeSat.
 
@@ -85,7 +85,7 @@ microcontrollers and a large variety of low-power networks, as described below.
 Cubedate leverages the SUIT manifest~\cite{suit-manifest} which specifies a metadata
 format to describe software updates. This format uses Concise Binary Object Representation
 (CBOR) for data serialization, and a security wrapper which protects the metadata end-to-end,
-leveraging the CBOR Object Signing and Encryption (COSE) specification \-\- all of which are IETF
+leveraging the CBOR Object Signing and Encryption (COSE) specification -\ all of which are IETF
 open standards for low-power communication security~\cite{tschofenig2019cyberphysical}.
 
 The Cubedate software update binary itself can be either encapsulated in the SUIT manifest, or transferred

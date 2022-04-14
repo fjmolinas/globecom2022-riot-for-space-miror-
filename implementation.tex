@@ -30,7 +30,7 @@ We generalized the SUIT state machine to add support for:
 \end{itemize}
 
 \underline{Network Pull Implementations:}
-We implemented several alternatives for the \texttt{client/server} interaction which
+We implemented several alternatives for the client/server interaction which
 must be initiated by the hosted payload to pull (GET) software update data over the
 network from either the OBC, or a (LPWAN) groundstation.
 
@@ -42,5 +42,5 @@ software updates over the direct link from a ThingSat LoRa groundstation to the 
 
 However, Cubedate is agnostic w.r.t the pull mechanism. To demonstrate this, we
 also implemented an alternative pull mechanism using UP (the Universal Platform protocol),
-a dedicated proprietary protocol provided by the CubeSat operator for \texttt{request/response}
+a dedicated proprietary protocol provided by the CubeSat operator for request/response
 interaction with the OBC. This option is currently deployed and running on ThingSat in orbit.
