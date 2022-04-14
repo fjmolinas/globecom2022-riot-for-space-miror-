@@ -1,0 +1,25 @@
+\documentclass{standalone}
+\usepackage{tikz}
+
+\begin{document}
+
+%\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccc}
+    \hline
+    \textbf{Component}          & Size \\ \hline
+ %   \textbf{Critical-Metadata}  &         \\
+            Sequence Number     & 4B      \\
+%            Version    & 1B      \\
+%    \textbf{Digests}            &          \\
+            Manifest Digest           & 32B        \\
+            Data Digest               & 32B          \\
+            Identifiers       & 32B          \\
+            Data-URI           & 64B       \\
+            Auth.     & 64B        \\
+            Other     & 86B       \\ \hline
+    \textbf{Total}          & 324B        \\ \hline
+    w.r.t. Mission/Firmware  & 46\% / 0.15\%    
+
+\end{tabular}%
+%}
+\end{document}

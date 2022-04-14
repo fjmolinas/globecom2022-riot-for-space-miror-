@@ -18,7 +18,8 @@ and in the industry for companies using geographically dispersed devices (e.g.
 monitoring of tank ships...).
 
 \begin{figure}[t]
-    \includegraphics[width=0.5\textwidth]{Figures/globecom-thingsat-mods.jpg}
+\centering
+    \includegraphics[width=0.35\textwidth]{Figures/globecom-thingsat-mods.jpg}
     \caption{ThingSat hosted payload: deployed components and architecture.}
     \label{fig:thingsat-archi}
 \end{figure}
@@ -39,7 +40,8 @@ Attitude Determination and Control System (ADCS),
 communication subsystems (UHF/VHF/S-band for uplink/downlink and antennas) and
 power subsystem (Battery Management, Energy Harvesting with Solar Panels, Auxiliary Power Supply).
 
-\item We designed the ThingSat payload, using a STM32F446RE microcontroller featuring an ARM Cortex-M4 core
+\item We designed the Thingsat payload, using a STM32F405RG %STM32F446RE 
+microcontroller featuring an ARM Cortex-M4 core
 and open source firmware based on RIOT~\cite{baccelli2018riot}. The ThingSat payload embeds both a
 \href{https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302}{Semtech SX1302 transceiver} for
 communications on the 863\-870 MHz band and a \href{https://www.semtech.com/products/wireless-rf/24-ghz-transceivers/sx1280}{Semtech SX1280 transceiver}
@@ -118,7 +120,7 @@ and diagnosis data (debug info on failed missions/updates)l \textbf{uplinks}: us
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.5\textwidth]{Figures/thingsat-dtn.png}
+    \includegraphics[width=0.4\textwidth]{Figures/thingsat-dtn.png}
     \caption{ThingSat in-orbit communication patterns.}
     \label{fig:thingsat-comm}
 \end{figure}

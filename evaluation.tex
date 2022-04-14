@@ -34,14 +34,18 @@ distinguish the SUIT endured overhead
 \end{itemize}
 
 The flash memory footprints (total and broken down per component) are shown in
-\ref*{tab:footprint}. It can be seen that the overhead of CubeDate for ThingSat
+\autoref{tab:footprint}. It can be seen that the overhead of Cubedate for ThingSat
 is of \~4Kbytes of RAM and \~19Kbytes of flash.
 
+In \autoref{tab:manifest-overhead} network transfer overhead is measured against the average mission file size (700Bytes) and the average firmware image size (200 KBytes).
+
 \begin{table}[ht]
-    \caption{CubeDat Memory Footprint}
-    \label{tab:footprint}
+\begin{adjustbox}{width=0.8\columnwidth,center}
     \centering
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/memory_footprint_table}
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/memory_footprint_table}    
+\end{adjustbox}
+\caption{Cubedate implementation: memory footprint in Bytes.}
+\label{tab:footprint}
 \end{table}
 
 \subsubsection{Standarized Network Stack Usage}
@@ -59,12 +63,13 @@ lost by using a not standard network stack, i.e. using standard application
 layer protocols.
 
 \begin{table}[ht]
-    \caption{SUIT Manifest Overhead}
-    \label{tab:manifest-overhead}
+
+\begin{adjustbox}{width=0.5\columnwidth,center}
     \centering
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/manifest_overhead_table}
-      \small Transfer Overhead is measured against the size on an average mission file
-      700Bytes and application binary size \(200 Kbytes * 2\) (two slot files).
+    \includestandalone[width=1\columnwidth]{Figures/texfigs/manifest_overhead_table_simplified}
+\end{adjustbox}
+\caption{Cubedate implementation: SUIT metadata overhead.}
+\label{tab:manifest-overhead}
 \end{table}
 
 \subsubsection{SUIT Authentication}
