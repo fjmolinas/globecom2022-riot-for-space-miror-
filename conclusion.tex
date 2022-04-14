@@ -1,6 +1,11 @@
 \section{Conclusion}
 \label{sec:conclusion}
+As the space race intensifies, rises the need for state-of-the-art security to protect software updates on multi-tenant cubesat in orbit.
+In this paper, we provided a corresponding case-study: ThingSat, a low-power payload we designed, hosted on a cubesat operated by a separate entity, currently orbiting.
+We then designed and implemented Cubedate, a framework achieving strong security guarantees and low overhead, for continuous deployment of software over the air on multi-tenant cubesat.
+The open source implementation of Cubedate we provided and evaluated for ThingSat was built to be reusable on a wide variety of low-power cubesat hardware.
 
+\iffalse
 This work studied ThingSat, demonstrating the increasing need for in-orbit software
 updates with high security guarantees. We provide these with CubeDate, a
 software-update architecture leveraging open-standards and open-source, to fulfill
@@ -11,3 +16,4 @@ updates (firmware) and bearable for small-sized updates (mission-logic), with
 further optimizations possible. However, room for improvement remains
 in developing open-standards: SUIT, to provide equal guarantees while trimming-down
 non-critical update-metadata for highly constrained links such as LoRa.
+\fi
