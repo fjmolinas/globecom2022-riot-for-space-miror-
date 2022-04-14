@@ -28,8 +28,7 @@
 @inproceedings{hahm2017low,
   title     = {{Low-power Internet of Things with NDN \& cooperative caching}},
   author    = {Hahm, Oliver and others},
-  booktitle = {Proceedings of the 4th ACM Conference on Information-Centric Networking},
-  pages     = {98--108},
+  booktitle = {ACM ICN},
   year      = {2017}
 }
 
@@ -58,7 +57,7 @@
 }
 
 @misc{rfc7252,
-  title     = {{The Constrained Application Protocol (CoAP)}},
+  title     = {{The Constrained Application Protocol (RFC7252)}},
   journal = {Internet Engineering Task Force RFC 7252},
   author    = {Zach Shelby and others},
   year      = 2014,
@@ -72,14 +71,11 @@
 }
 
 @article{palma2018vhf-coap,
-  title     = {Enabling the maritime Internet of Things: CoAP and 6LoWPAN performance over VHF links},
+  title     = {{Enabling the maritime Internet of Things: CoAP and 6LoWPAN performance over VHF links}},
   author    = {Palma, David},
-  journal   = {IEEE Internet of Things Journal},
-  volume    = {5},
-  number    = {6},
-  pages     = {5205--5212},
+  journal   = {IEEE IoTs Journal},
   year      = {2018},
-  publisher = {IEEE}
+
 }
 
 @article{tschofenig2019cyberphysical,
@@ -161,12 +157,9 @@
 
 @article{maison2021otaeducubesat,
   author  = {Maisun Ibn Monowar and Mengu Cho},
-  title   = {Over-the-Air Firmware Update for an Educational CubeSat Project},
-  journal = {International Review of Aerospace Engineering (IREASE)},
-  volume  = {14},
-  number  = {1},
+  title   = {{Over-the-Air Firmware Update for an Educational CubeSat Project}},
+  journal = {IREASE},
   year    = {2021},
-  issn    = {2533-2279}
 }
 
 @misc{amsatcubesat,
@@ -273,12 +266,12 @@
 }
 
 @misc{git:cubedate-repo,
-  title        = {Cubedate GitHub Repository},
+  title        = {Cubedate online repository},
   howpublished = {\url{https://github.com/thingsat/Cubedate}}
 }
 
 @misc{git:thingsat-repo,
-  title        = {ThingSat public gitlab repository},
+  title        = {ThingSat},
   howpublished = {\url{https://gricad-gitlab.univ-grenoble-alpes.fr/thingsat/public}}
 }
 
@@ -304,16 +297,10 @@
 }
 
 @misc{rfc8724,
-  series       = {Request for Comments},
-  number       = 8724,
-  howpublished = {RFC 8724},
-  publisher    = {RFC Editor},
-  doi          = {10.17487/RFC8724},
-  url          = {https://www.rfc-editor.org/info/rfc8724},
+  howpublished = {IETF RFC 8724},
   author       = {Ana Minaburo and others},
   title        = {{SCHC: Generic Framework for Static Context Header Compression and Fragmentation}},
-  pagetotal    = 71,
+  month = apr,
   year         = 2020,
-  month        = apr,
-  abstract     = {This document defines the Static Context Header Compression and fragmentation (SCHC) framework, which provides both a header compression mechanism and an optional fragmentation mechanism. SCHC has been designed with Low-Power Wide Area Networks (LPWANs) in mind. SCHC compression is based on a common static context stored both in the LPWAN device and in the network infrastructure side. This document defines a generic header compression mechanism and its application to compress IPv6/UDP headers. This document also specifies an optional fragmentation and reassembly mechanism. It can be used to support the IPv6 MTU requirement over the LPWAN technologies. Fragmentation is needed for IPv6 datagrams that, after SCHC compression or when such compression was not possible, still exceed the Layer 2 maximum payload size. The SCHC header compression and fragmentation mechanisms are independent of the specific LPWAN technology over which they are used. This document defines generic functionalities and offers flexibility with regard to parameter settings and mechanism choices. This document standardizes the exchange over the LPWAN between two SCHC entities. Settings and choices specific to a technology or a product are expected to be grouped into profiles, which are specified in other documents. Data models for the context and profiles are out of scope.}
+
 }

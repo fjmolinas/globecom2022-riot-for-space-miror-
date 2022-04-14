@@ -2,15 +2,14 @@
 \label{sec:implementation}
 
 We implemented Cubedate by extending the open source ecosystem around RIOT, which we combined with
-our initial firmware running on the ThingSat payload, also open sourced, which we published and
-maintain at \cite*{git:cubedate-repo}/
+our initial firmware running on the ThingSat payload, also open sourced, which we published and maintain online~\cite{git:cubedate-repo}.
 
 \underline{Communication Bus:}
 To provide a simple socket-like API on top of the raw CAN bus connecting hosted
 payloads and OBC on the CubeSat, we used \href{https://github.com/libcsp/libcsp}{libCSP},
 a library implementing the CubeSat Space Protocol (CSP version 1), which we integrated into RIOT.
 This stack is deployed on Satellites such as Nuts\cite{bezem2013nutsAuthenticatedUplink}, GomSpace
-and used by SatRevolution. Roughly, CSP provides an \"equivalent\" of the IP/UDP stack
+and used by SatRevolution. Roughly, CSP provides an 'equivalent' of the IP/UDP stack
 and static routing.
 
 \underline{SUIT Implementation:}
@@ -30,6 +29,12 @@ We generalized the SUIT state machine to add support for:
 \end{itemize}
 
 \underline{Network Pull Implementations:}
+The client/server interaction is initiated by the hosted payload which pulls (GET) the software update data over the
+network from either the OBC, or a groundstation. The pull mechanism we implemented uses CoAP~\cite{rfc7252}
+an open standard low-power IPv6 protocol following a general-purpose REST architecture. In particular,
+it is not only applicable over the CAN/CSP link, but also usable over VHF links~\cite{palma2018vhf-coap}
+or LoRa links~\cite{sanchez2018lora-coap}, which paves the way for some Cubedate
+software updates over the direct link from a ThingSat LoRa groundstation to the ThingSat payload.
 
 \iffalse
 We implemented several alternatives for the client/server interaction which
@@ -47,9 +52,3 @@ also implemented an alternative pull mechanism using UP (the Universal Platform 
 a dedicated proprietary protocol provided by the CubeSat operator for request/response
 interaction with the OBC. This option is currently deployed and running on ThingSat in orbit.
 \fi
-The client/server interaction is initiated by tehe hosted payload pulls (GET) the software update data over the
-network from either the OBC, or a groundstation. The pull mechanism we implemented uses CoAP~\cite{rfc7252}
-an open standard low-power IPv6 protocol following a general-purpose REST architecture. In particular,
-it is not only applicable over the CAN/CSP link, but also usable over VHF links~\cite{palma2018vhf-coap}
-or LoRa links~\cite{sanchez2018lora-coap}, which paves the way for some Cubedate
-software updates over the direct link from a ThingSat LoRa groundstation to the ThingSat payload.
