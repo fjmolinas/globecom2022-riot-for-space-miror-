@@ -1,26 +1,30 @@
 \section{Cubedate Evaluation and Discussion}
 \label{sec:evaluation}
 
-%The analysis of the implementation was two-fold, first we evaluate how the SUIT based architecture fitted the CubeSat and CubeSat hosted payload use case. Second, we discuss possible modifications to the workflow, architecture and protocols.
-
-%\subsection{Evaluation}
-
 In the following, code measurements where generated compiling with ARM GCC 10.2.1,
-optimized for code size. As code base, we used RIOT release 2022.01 and SUIT configured with ed25519 digital signatures provided by the C25519 crypto library as backend (which has small footprint as shown in prior work~\cite{zandberg2019secure}).
+optimized for code size. As code base, we used RIOT release 2022.01 and SUIT configured
+with ed25519 digital signatures provided by the C25519 crypto library (which has a small
+footprint as shown in prior work~\cite{zandberg2019secure}).
 
 \subsubsection{Memory Footprint Overhead}
 
-To evaluate the RAM and Flash footprint of our Cubedate implementation, we apply it to the ThingSat use-case, compiled for the hosted payload hardware described in \autoref{sec:thingsat-hw} (based on a Cortex-M microcontroller).
+To evaluate the RAM and Flash footprint of our Cubedate implementation, we apply it to
+the ThingSat use-case, compiled for the hosted payload hardware described in \autoref{sec:thingsat-hw}.
 
-In \autoref{tab:footprint} we compare the RAM and Flash memory requirements for a ThingSat firmware without/with Cubedate-compliant secure software updates.
-We observe that Cubedate requires a memory budget of $\sim$4KB of RAM and $\sim$19KB of Flash, which represents roughly a 10\% increase in the total RAM and Flash memory budget for ThingSat.
+In \autoref{tab:footprint} we compare the RAM and Flash memory requirements for a ThingSat firmware with/without Cubedate-compliant updates.
+We observe that Cubedate requires a memory budget of $\sim$4KB of RAM and $\sim$19KB of Flash, which represents roughly a 10\%
+increase in the total RAM and Flash memory budget for ThingSat.
 
 \subsubsection{Network Transfer Overhead}
-On the UHF/VHF link at 1kb/s, the additional network transfer time induced by the Cubedate firmware size overhead (19KB) is roughly 15 seconds. This overhead is reasonable, but not negligible keeping in mind that a connection to the CubeSat is segmented in time windows of $\sim$300 seconds.
+On the UHF/VHF link at 1kb/s, the additional network transfer time induced by the Cubedate firmware size overhead (19KB) is roughly 15 seconds.
+This overhead is reasonable, but non-negligible considering that a connection to the CubeSat is segmented in time windows of $\sim$300 seconds.
 
 Next, in \autoref{tab:footprint} we look in more details at the metadata (SUIT manifest) used to secure Cubedate software updates for ThingSat.
-As we can see, the metadata including all CBOR/COSE formatting, digests (SHA256 hashes) and authentication data (ed25519 signature) amounts to $\sim$330B. The metadata overhead thus incurs negligible overhead (+0,15\%) in case of a ThingSat firmware update (of size 200KB on average, recall \autoref{sec:thingsat-update-req}). However, in case of a smaller software update such as updating a mission scenario (average size 700B) the overhead of adding Cubedate metadata is significant (almost +50\%).
-Nevertheless, on the UHF/VHF link at 1kb/s, this overhead remains negligible in terms of additional network transfer time.
+As we can see, the metadata including all CBOR/COSE formatting, digests (SHA256 hashes) and authentication data (ed25519 signature) amounts to $\sim$330B.
+The metadata overhead thus incurs negligible overhead (+0,15\%) in case of a ThingSat firmware update (of size 200KB on average, recall
+\autoref{sec:thingsat-update-req}). However, for smaller software update such as updating a mission scenario (average size 700B) the metadata
+overhead is significant (almost +50\%). Nevertheless, on the UHF/VHF link at 1kb/s, this overhead remains negligible in terms of additional
+network transfer time.
 
 \iffalse
 
@@ -62,60 +66,25 @@ is of $\sim$4KB of RAM and $\sim$19KB of flash.
 
 \subsection{Discussion \& Perspectives}
 
-\subsubsection{Portability} Bolted on top of RIOT, our Cubedate implementation works out-of-the-box (or is trivially portable) on a very wide variety of low-powr hardware built on Cortex-M microcontrollers: the bulk of the 200+ boards supported by RIOT.
-However, additional work would be needed to support other hardware based on different 32-bit microcontroller architectures (one thinks of RISC-V).
+\subsubsection{Portability} Bolted on top of RIOT, our Cubedate implementation works out-of-the-box
+(or is trivially portable) on a very wide variety of low-power hardware built on Cortex-M microcontrollers:
+the bulk of the 200+ boards supported by RIOT. However, additional work would be needed to support
+other hardware based on different 32-bit microcontroller architectures (e.g. RISC-V).
 
 \subsubsection{Network Stack Simplification \& Standardization}
-The use of CSP was mandated by the CuebSat operator. The purpose of CSP was to provide an ultra-low footprint equivalent of the IP protocol stack for CuebSats with legacy (8-bit) microcontrollers.
-However, on modern (32-bit) microcontrollers such as those used in ThingSat, this approach is questionable. An alternative to CSP based on more widely spread standards seems possible for the same "price". For example, RIOT's default low-power IPv6 (6LoWPAN) stack used with static routing has a footprint in RAM/Flash memory that is comparable (or smaller) than libCSP memory footprint. The 6LoWPAN stack could run direcly on the CAN bus or on LoRa (see 6loCAN~\cite{wachter20206locan01} and SCHC~\cite{rfc8724}).
+The use of CSP was mandated by the CubeSat operator. The purpose of CSP was to provide an ultra-low
+footprint equivalent of the IP protocol stack for CubeSats with legacy (8-bit) microcontrollers.
+However, on modern (32-bit) microcontrollers such as those used in ThingSat, this approach is can be discussed.
+More widely spread standard alternatives to CSP seems possible for a similar "price".
+For example, RIOT's default low-power IPv6 (6LoWPAN) stack used with static routing has a footprint
+in RAM/Flash memory that is comparable to libCSP memory footprint. The 6LoWPAN stack
+could run directly on the CAN bus or on LoRa (see 6loCAN~\cite{wachter20206locan01}
+and SCHC~\cite{rfc8724}).
 
 \subsubsection{Alternative cryptographic primitives}
-In our experimental evaluation, we used ed25519 (elliptic curve cryptography) digital signatures providing 128-bit pre-quantum security. One can consider either alternative primitives, while remaining compliant with Cubedate and the SUIT standard. One compromise to significantly decrease network transfer and memory footprint with Cubedate is to use HMAC (symmetric crypto) instead of digital signatures for authentication. Another option would be to upgrade security to 128-bit post-quantum security by using hash-based signature instead of ed25519.
-
-\iffalse
-In fact, taking as base
- CubeSat sub-systems developers the same features as an
-TCP/IP stack without the overhead of the IP header, allowing to run on constrained
-systems with under 4kB of RAM. Unless running on this kind of very constrained
-devices using CSP can be contested. A minimal CoAP server example running on
-LibCSP or RIOTs default IPv6/UDP network stack (GNRC) yields similar numbers of RAM/Flash
-usage: 10KB\/30KB (CSP) vs 8KB/31KB (GNRC). Optimal compression of an Ipv6 header
-can shrink the size from 48B to 4B, comparable to CSP2.0 3B header.
-Furthermore  6loCAN\cite{wachter20206locan01}, SCHC\cite{rfc8724}, allow to
-optimize IPv6 for CAN-BUS or LoRa network. What is gained in simplicity is eventually
-lost by using a not standard network stack, i.e. using standard application
-layer protocols.
-
-
-\begin{table}[t]
-
-\begin{adjustbox}{width=0.5\columnwidth,center}
-    \centering
-    \includestandalone[width=1\columnwidth]{Figures/texfigs/manifest_overhead_table_simplified}
-\end{adjustbox}
-\caption{Cubedate implementation: SUIT metadata overhead.}
-\label{tab:manifest-overhead}
-\end{table}
-
-\subsubsection{SUIT Authentication}
-
-SUIT relies on COSE for authentication, with digital signatures being the most
-used method. A viable alternative for CubeSat maybe to instead use a tagged Message
-Authentication Code (MAC). This will reduce the size of \textit{Authentication} block
-\ref*{tab:manifest-overhead} from 64B to 16B or 8B if using HAMC-256/128
-or HMAC-256/64. This would also save Flash since as seen in~\cite{zandberg2019secure}
-the ed25519 library accounts for roughly 75\% of the crypto flash budget, while HMAC-256
-re-uses sha256 code, and adds an overhead of ~1Kbyte. The requirement for a shared secret
-might be an acceptable compromise since attackers gaining physical access to the
-in-orbit device is unlikely.
-
-\subsubsection{SUIT Manifest Overhead}
-
-In space communication transferring data is costly, reducing the Manifest
-overhead~\ref{tab:manifest-overhead} for mission files transfers is highly
-desirable. This can be done by using COSE\_MAC0\_tagged instead of
-COSE\_SGN0\_tagged (-56B) and integrating the payload into the
-manifest (-64B from the URI), reducing the manifest size to 162B,
-effectively reducing the overhead to $\sim$23\%.
-
-\fi
+In our experimental evaluation, we used ed25519 (elliptic curve cryptography) digital signature
+providing 128-bit pre-quantum security. One can consider either alternative primitives, while
+remaining compliant with Cubedate and the SUIT standard. One compromise to significantly decrease
+network transfer and memory footprint with Cubedate is to use HMAC (symmetric crypto) instead of
+digital signatures for authentication. Another option would be to upgrade security to 128-bit
+post-quantum security by using hash-based signature instead of ed25519.
