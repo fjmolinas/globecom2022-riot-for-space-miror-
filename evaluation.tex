@@ -13,13 +13,13 @@ optimized for code size. As code base, we used RIOT release 2022.01 and SUIT con
 To evaluate the RAM and Flash footprint of our Cubedate implementation, we apply it to the ThingSat use-case, compiled for the hosted payload hardware described in \autoref{sec:thingsat-hw} (based on a Cortex-M microcontroller).
 
 In \autoref{tab:footprint} we compare the RAM and Flash memory requirements for a ThingSat firmware without/with Cubedate-compliant secure software updates.
-We observe that Cubedate requires a memory budget of $\sim$4kB of RAM and $\sim$19kB of Flash, which represents roughly a 10\% increase in the total RAM and Flash memory budget for ThingSat.
+We observe that Cubedate requires a memory budget of $\sim$4KB of RAM and $\sim$19KB of Flash, which represents roughly a 10\% increase in the total RAM and Flash memory budget for ThingSat.
 
 \subsubsection{Network Transfer Overhead}
-On the UHF/VHF link at 1kb/s, the additional network transfer time induced by the Cubedate firmware size overhead (19kB) is roughly 15 seconds. This overhead is reasonable, but not negligible keeping in mind that a connection to the CubeSat is segmented in time windows of $\sim$ 300 seconds.
+On the UHF/VHF link at 1kb/s, the additional network transfer time induced by the Cubedate firmware size overhead (19KB) is roughly 15 seconds. This overhead is reasonable, but not negligible keeping in mind that a connection to the CubeSat is segmented in time windows of $\sim$300 seconds.
 
 Next, in \autoref{tab:footprint} we look in more details at the metadata (SUIT manifest) used to secure Cubedate software updates for ThingSat.
-As we can see, the metadata including all CBOR/COSE formatting, digests (SHA256 hashes) and authentication data (ed25519 signature) amounts to $\sim$330B. The metadata overhead thus incurs negligible overhead (+0,15\%) in case of a ThingSat firmware update (of size 200kB on average, recall \autoref{sec:thingsat-update-req}). However, in case of a smaller software update such as updating a mission scenario (average size 700B) the overhead of adding Cubedate metadata is significant (almost +50\%).
+As we can see, the metadata including all CBOR/COSE formatting, digests (SHA256 hashes) and authentication data (ed25519 signature) amounts to $\sim$330B. The metadata overhead thus incurs negligible overhead (+0,15\%) in case of a ThingSat firmware update (of size 200KB on average, recall \autoref{sec:thingsat-update-req}). However, in case of a smaller software update such as updating a mission scenario (average size 700B) the overhead of adding Cubedate metadata is significant (almost +50\%).
 Nevertheless, on the UHF/VHF link at 1kb/s, this overhead remains negligible in terms of additional network transfer time.
 
 \iffalse
@@ -47,7 +47,7 @@ distinguish the SUIT endured overhead
 
 The flash memory footprints (total and broken down per component) are shown in
 \autoref{tab:footprint}. It can be seen that the overhead of Cubedate for ThingSat
-is of \~4KB of RAM and \~19KB of flash.
+is of $\sim$4KB of RAM and $\sim$19KB of flash.
 \fi
 
 
@@ -110,5 +110,5 @@ overhead~\ref{tab:manifest-overhead} for mission files transfers is highly
 desirable. This can be done by using \texttt{COSE\_MAC0\_tagged} instead of
 \texttt{COSE\_SGN0\_tagged} (-56B) and integrating the payload into the
 manifest (-64B from the URI), reducing the manifest size to 162B,
-effectively reducing the overhead to \~23\%.
+effectively reducing the overhead to $\sim$23\%.
 

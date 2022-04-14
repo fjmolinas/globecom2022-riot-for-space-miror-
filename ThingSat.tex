@@ -8,7 +8,7 @@ effectiveness of that technology inside a LEO (Low Earth Orbit) CubeSat.
 ThingSat is deployed as a hosted payload on a shared 3U CubeSat:
 \href{https://space.skyrocket.de/doc_sdat/stork-1.htm}{STORK-1} from the polish
 start-up \href{https://www.satrevolution.com/}{SatRevolution}. The CubeSat was
-launched on January 13th, 2022,currently in orbit at an altitude of 525 km (see its
+launched on January 13th, 2022,currently in orbit at an altitude of 525km (see its
 \href{https://www.n2yo.com/database/?q=STORK-1\#results}{Two-Line Elements}).
 
 The ThingSat payload now in orbit is used for Ocean level monitoring. However,
@@ -44,12 +44,12 @@ power subsystem (Battery Management, Energy Harvesting with Solar Panels, Auxili
 microcontroller featuring an ARM Cortex-M4 core
 and open source firmware based on RIOT~\cite{baccelli2018riot}. The ThingSat payload embeds both a
 \href{https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302}{Semtech SX1302 transceiver} for
-communications on the 863\-870 MHz band and a \href{https://www.semtech.com/products/wireless-rf/24-ghz-transceivers/sx1280}{Semtech SX1280 transceiver}
-for communications on the 2400\-2500 MHz band. Furthermore we designed a corresponding dual-band patch antenna (868MHz, 2.4GHz).
-When active and using the 863\-870 MHz band, the ThingSat payload consumes at 3.3V:
-(i) 90 mA in standby,
-(ii) 110 mA during a frame reception (RX) and
-(iii) 300 mA during a frame transmission (TX) at 27 dBm.
+communications on the 863-870MHz band and a \href{https://www.semtech.com/products/wireless-rf/24-ghz-transceivers/sx1280}{Semtech SX1280 transceiver}
+for communications on the 2400-2500MHz band. Furthermore we designed a corresponding dual-band patch antenna (868MHz, 2.4GHz).
+When active and using the 863-870MHz band, the ThingSat payload consumes at 3.3V:
+(i) 90mA in standby,
+(ii) 110mA during a frame reception (RX) and
+(iii) 300mA during a frame transmission (TX) at 27dBm.
 \end{itemize}
 
 \subsection*{Ground Segments}
@@ -88,14 +88,14 @@ them once GS/ED destinations are inside the footprint of the satellite.
 
 \paragraph*{Indirect communication characteristics via UHF/VHF}
 CubeSat-GS communications are typically done on amateur frequency
-bands (UHF/VHF) with typically low data rates ranging from 9.6kbps to
-100kbps.
+bands (UHF/VHF) with typically low data rates ranging from 9.6Kbps to
+100Kbps.
 A polar LEO satellite will typically pass over a given ground station 2 to 4 times/day,
 each pass having a communication window of to 10 minutes.
 
 For ThingSat, the CubeSat Operator provides only 2 ground stations (both in Europe), communicating with
-the CubeSat via a 10-kbps UHF/VHF link. Thus, the daily throughput is roughly
-1500KB (corresponding to 2 GS x 2 passes/day x 5-min pass duration x 10Kbps).
+the CubeSat via a 10-Kbps UHF/VHF link. Thus, the daily throughput is roughly
+1500KB (corresponding to 2GS x 2 passes/day x 5-min pass duration x 10Kbps).
 However, this throughput must be shared between communications to/from the OBC
 (for telecommand/telemetry/update) and to/from hosted payloads. Therefore in practice,
 the total communication budget available for ThingSat via the UHF/VHF link is around
@@ -112,10 +112,10 @@ in the case of ThingSat). Therefore, on average ThingSat is powered only 1/8th (
 \label{sec:thingsat-update-req}
 Data exchanges between the Payload Maintainer and ThingSat consist on
 \textbf{downlinks}: used by ThingSat to send mission results (radio metadata, frame stats, collected LoRa frames)
-and diagnosis data (debug info on failed missions/updates)l \textbf{uplinks}: used for software updates of two categories:
+and diagnosis data (debug info on failed missions/updates) \textbf{uplinks}: used for software updates of two categories:
 \begin{enumerate}
-    \item Firmware updates: to fix bugs, add/improve functionality (typically $\sim 200kB$ per FW, 1 FW/month);
-    \item Mission updates: to configure scenarios (typically $\sim 700B$ per mission scenario, 1 scenario/day);
+    \item Firmware updates: to fix bugs, add/improve functionality (typically $\sim$200KB per FW, 1 FW/month);
+    \item Mission updates: to configure scenarios (typically $\sim$700B per mission scenario, 1 scenario/day);
 \end{enumerate}
 
 \begin{figure}[t]
