@@ -1,22 +1,21 @@
 \section{Related Work}
 \label{sec:background-related-work}
 
-{\bf Open source hardware and software are increasingly used on low-cost CubeSats}, including microcontroller parts.
+{\bf Open source hardware and software is increasingly used on low-cost CubeSats}, including microcontroller parts.
 For instance pyCubed~\cite{Holliday2019PyCubed} proposes open source CubeSat hardware based on an Arm Cortex-M4 (atsamd51)
-microcontroller and its corresponding open source software based on Python (Adafruit CircuitPython).
-OreSat~\cite{spivey2021oresat} designs microcontroller based CubeSat, and provides the corresponding open source software.
-Organizations such as the Libre Space Foundation~\cite{librespace} harbor a number of open source software code basis for
-CubeSats, such as UPSat, Qubik.
+microcontroller and matching Python (CircuitPython) based open source software. OreSat~\cite{spivey2021oresat} designs
+microcontrollers based CubeSats, and provides the corresponding open source software. Organizations such as the Libre
+Space Foundation~\cite{librespace} harbor a number of open source software code basis for CubeSats, such as UPSat, Qubik.
 
-Once the CubeSat is in orbit, during its lifetime, the software it embarks must typically be updated over-the-air.
+Once the CubeSat is in orbit, during its lifetime, the embarked software will typically need updating.
 Some work such as~\cite{FitzsimmonsReliableSoftwareUpdates} have focused on the reliability of the ground-flight link for firmware updates.
 Other work have focused on mitigating radiation effects corrupting firmware storage and on error correction, such as \cite{yuen2019low}
 or partly in \cite{sunter2016updatesnano}.
 A vanilla approach to securing low-cost CubeSat software updates, such as described in~\cite{maison2021otaeducubesat},
-only uses weak security primitives (e.g., MD5 integrity checks) instead of strong primitives such as authentication
+uses weak security primitives (e.g., MD5 integrity checks) instead of strong primitives such as authentication
 with digital signatures and encryption.
-However, recent cyberattacks such as the ViaSat outage in Ukraine~\cite{viasat-cyberattack} suggest that, as CubeSat
-systems become more popular, they are likely to become also more prone to cyberattacks.
+However, recent cyberattacks such as the ViaSat outage in Ukraine~\cite{viasat-cyberattack} suggest that, with their CubeSat
+increasing potentially, CubeSat systems are more likely to become cyberattack targets.
 A crucial related challenge is thus {\bf how to provide strong security for in orbit software updates}.
 Prior work such as NUTS~\cite{birkeland2014nutsoverview,bezem2013nutsAuthenticatedUplink} have focused on authentication
 and communication security over the ground-flight uplink.
@@ -35,10 +34,8 @@ This hosted CubeSat use-case is depicted in \autoref{fig:e2e}.
 \subsection*{Paper contributions}
 The main contributions of this paper are the following
 \begin{itemize}
-    \item We provide a case-study: ThingSat, a low-power, low-cost payload hosted on a CubeSat, currently in-orbit;
+    \item We provide a case-study, ThingSat: a low-power, low-cost payload hosted on a CubeSat, currently in-orbit;
     \item We analyze its software update requirements and constraints;
     \item We define Cubedate, a generic architecture enabling standards-based, secure software updates for payloads hosted on a low-power CubeSat;
     \item We provide and evaluate an open source implementation of Cubedate.
 \end{itemize}
-
-%%%%%%%%%%%%%%%%
