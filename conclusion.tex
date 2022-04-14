@@ -1,9 +1,14 @@
-
-\section{Next Steps \& Future Work}
-\label{sec:futurework}
-
-\paragraph*{RIOT/SUIT differential firmware updates}
-\paragraph*{Business logic containerization}
-
 \section{Conclusion}
 \label{sec:conclusion}
+
+This work studied ThingSat, a use case demonstrating the increasing need for in-orbit
+software updates with high security guarantees. We provide these CubeDate, a
+software updates architecture leveraging open-standards and open-source, to fulfill
+the security contract while keeping the barrier of entry for CubeSat projects low.
+This architecture leveraged SUIT independent of used the software and hardware stack,
+while proving its adequacy for a commonly seen CSP/CAN-BUS stack. We showed that
+the price in memory as well as transmission overhead, is small for a medium-sized
+updates (firmware) and bearable for small updates (mission-logic), with possible
+further optimizations through some concessions. However, room for improvement remains
+in developing open-standards (SUIT) to provide equal guarantees while trimming-down
+non-critical update metadata for highly constrained links such as space-LoRa.
